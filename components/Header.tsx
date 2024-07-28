@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import Cart from "@/components/cart/Cart";
+import Link from 'next/link'
 
 
 export default function Header() {
@@ -38,11 +39,11 @@ export default function Header() {
                 </div>
                 <div className="flex gap-2 cursor-pointer">
                     <Image src={'/icons/favs.svg'} alt={'Избранное'} width={18} height={17} />
-                    <p>Избранное</p>
+                    <Link href={'/favourites'}>Избранное</Link>
                 </div>
                 <div className="flex gap-2 cursor-pointer">
                     <Image src={'/icons/profile.svg'} alt={'Профиль'} width={18} height={17} />
-                    <p>Профиль</p>
+                    <Link href={'/profile'}>Профиль</Link>
                 </div>
             </div>
                 <Cart isCartVisible={isCartVisible} toggleCart={toggleCart} />
