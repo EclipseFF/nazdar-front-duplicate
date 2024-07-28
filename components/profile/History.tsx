@@ -4,7 +4,7 @@ import {redirect} from "next/navigation";
 export default function Profile(){
     return (
         <div className="flex ">
-            <p>History</p>
+            <p>Historyджлфаотпфулжуотупждтукжпфуткжпщштукптукдлптудклптукдлsdfsdfdsfdsfdsds</p>
         </div>
     )
 }

@@ -1,9 +1,15 @@
+'use client'
 import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious} from "@/components/ui/carousel";
 import Image from "next/image";
+import {useSearchParams} from "next/navigation";
+import {clsx} from "clsx";
 
 export default function PromoSlider(){
+    /*const searchParams = useSearchParams()
+    const cart = searchParams.get('cart')*/
+    //, cart === 'opened' ? 'opacity-50' : 'block'
     return (
-        <div className="w-[900px]">
+        <div className={clsx("w-[900px]")} id="promo-slider">
             <Carousel>
                 <CarouselContent>
                     <CarouselItem>
