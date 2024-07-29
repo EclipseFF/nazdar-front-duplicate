@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import CartItemModel from "@/lib/models";
+import {CartItemModel} from "@/lib/models";
 
 export default function CartItem(props: CartItemModel){
     return (
