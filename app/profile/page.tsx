@@ -1,5 +1,5 @@
 'use client'
-import Profile from "@/components/profile/Profile";
+import UserInfo from "@/components/profile/UserInfo";
 import Sidebar from "@/components/profile/Sidebar";
 import History from "@/components/profile/History";
 import Orders from "@/components/profile/Orders";
@@ -9,12 +9,12 @@ import Faq from "@/components/profile/Faq";
 import {useState} from "react";
 
 export default function Page() {
-    const [activeSection, setActiveSection] = useState('profile')
+    const [activeSection, setActiveSection] = useState('userinfo')
 
     const renderSection = () => {
         switch (activeSection) {
-            case 'profile':
-                return <Profile />
+            case 'userinfo':
+                return <UserInfo />
             case 'orders':
                 return <Orders />
             case 'favs':
