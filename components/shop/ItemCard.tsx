@@ -8,6 +8,15 @@ import GetAllCategories from "@/actions/categories/get-all-categories";
 import Register from "@/actions/users/register";
 import cart from "@/components/cart/Cart";
 import {useRouter} from "next/navigation";
+import RegistrationForm from "@/components/profile/RegistrationForm";
+import {
+    AlertDialog,
+    AlertDialogAction, AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 
 interface Props {
     token?: string
@@ -17,6 +26,10 @@ interface Props {
 export default function ItemCard(props: Props) {
     const [count, setCount] = useState(0);
     const router = useRouter();
+    const [inputNumber, setInputNumber] = useState<string>("")
+    const [inputname, setName] = useState<string>("")
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [error, setError] = useState<string>("")
 
     return (
         <div className="w-[210px] h-[390px] border-2 border-[#F3F3F3] rounded-[40px]" >
@@ -38,9 +51,37 @@ export default function ItemCard(props: Props) {
                 </div>
             </div>
             <div className="flex justify-center pt-4">
-
+                {!props.token && (
+                        <AlertDialog open={isOpen}>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
+                                    <AlertDialogDescription className="grid-cols-2">
+                                        <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md mb-2" ></input>
+                                        <input onChange={e => setName(e.target.value)} placeholder={'Напишите ваше имя'} className="resize-none text-xl border-2 placeholder rounded-md"></input>
+                                        {error !== "" && <p className="text-red-500">{error}</p>}
+                                    </AlertDialogDescription>
+                                    <AlertDialogDescription className="text-primary_purple">Если вы уже регистрировались, введите те же данные</AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogAction className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white">
+                                        <button onClick={() => {
+                                            if (inputNumber !== "" && inputname !== "") {
+                                                Register(inputNumber, inputname).then(() => location.reload())
+                                            }
+                                            else {
+                                                setError("Заполните все поля")
+                                            }
+                                        }}>
+                                            Отправить
+                                        </button>
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                )}
                     <button onClick={() => {
-                        {!props.token && router.push('/login')}
+                        {!props.token && setIsOpen(true)}
                         {props.token && count > 0 && (
                         AddCartItem({
                             id: props.Item.id,
