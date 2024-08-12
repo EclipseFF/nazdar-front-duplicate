@@ -7,7 +7,7 @@ import {Suspense} from "react";
 import {cookies} from "next/headers";
 
 export default function Home() {
-  //const userToken = cookies().get("token")
+  const userToken = cookies().get("token")?.value
 
   return (
       <div className="bg-white grid grid-cols-1 justify-items-center">
@@ -15,7 +15,7 @@ export default function Home() {
           <Suspense>
             <Filters />
           </Suspense>
-          <ItemList />
+          <ItemList token={userToken} />
       </div>
   )
 }

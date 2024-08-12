@@ -8,15 +8,17 @@ export default async function GetAllItems(limit: number, offset: number): Promis
         const json = await response.json();
 
         let items: Item[] = [];
-        json.forEach((item: any) => {
-            const temp: Item = {
-                id: item.id,
-                name: item.name,
-                price: item.price,
-                images: item.images
-            }
-            items.push(temp);
-        })
+        if (Array.isArray(json)) {
+            json.forEach((item: any) => {
+                const temp: Item = {
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    images: item.images
+                }
+                items.push(temp);
+            })
+        }
 
         return items;
     } catch (e) {

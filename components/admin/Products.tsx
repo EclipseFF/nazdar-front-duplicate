@@ -11,7 +11,9 @@ export default function Products(){
                     <Link href={'/admin/create-item'}>
                         <button className="bg-pink-500 text-white p-2 rounded-lg">Добавить</button>
                     </Link>
-                    <button className="bg-pink-100 text-pink-500 p-2 rounded-lg">Создать категорию</button>
+                    <Link href={'/admin/create-category'}>
+                        <button className="bg-pink-100 text-pink-500 p-2 rounded-lg">Создать категорию</button>
+                    </Link>
                     <div className="p-2">Выбрана 1 строка</div>
                 </div>
                 <input

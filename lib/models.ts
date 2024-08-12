@@ -16,9 +16,17 @@ export interface CartItemModel {
 export interface User {
     id: number
     phoneNumber: string
+    name?: string
+    surname?: string
+    patronymic?: string
 }
 
 export interface Session {
     userId: number
     token: string
+}
+
+export interface Category{
+    id: number
+    name: string
 }

@@ -31,6 +31,8 @@ export default function Page() {
                 return <Support />
             case 'faq':
                 return <Faq />
+            default:
+                return <UserInfo />
         }
     }
 

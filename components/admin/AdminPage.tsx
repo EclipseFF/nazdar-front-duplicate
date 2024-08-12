@@ -6,11 +6,13 @@ import Users from "@/components/admin/Users";
 import Dashboard from "@/components/admin/Dashboard";
 import Products from "@/components/admin/Products";
 import AdminHeader from "@/components/admin/AdminHeader";
+import Categories from "@/components/admin/Categories";
 
 const links: Link[] = [
     {link: 'dashboard', name: 'Статистика', icon: '/icons/profile.svg'},
     {link: 'users', name: 'Пользователи', icon: '/icons/orders.svg'},
-    {link: 'products', name: 'Продукты', icon: '/icons/favorite.svg'}
+    {link: 'products', name: 'Продукты', icon: '/icons/favorite.svg'},
+    {link: 'categories', name: 'Категории', icon: '/icons/favorite.svg'},
 ]
 
 export default function AdminPage() {
@@ -24,6 +26,8 @@ export default function AdminPage() {
                 return <Users/>
             case 'products':
                 return <Products/>
+            case 'categories':
+                return <Categories/>
             default:
                 return <Products/>
         }

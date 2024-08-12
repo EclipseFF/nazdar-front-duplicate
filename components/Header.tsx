@@ -11,6 +11,7 @@ import {
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
 import Register from "@/actions/users/register";
+import {redirect, useRouter} from "next/navigation";
 
 interface Props {
     token?: string
@@ -19,15 +20,18 @@ interface Props {
 export default function Header(props: Props) {
     const [isCartVisible, setIsCartVisible] = useState(false);
     const [inputNumber, setInputNumber] = useState<string>("")
+    const [inputname, setName] = useState<string>("")
     const toggleCart = () => {
         setIsCartVisible(!isCartVisible);
     };
+    const router = useRouter()
 
     return (
         <div className="flex justify-between h-32 bg-white rounded-t-[20px] border-b border-b-[#EAEAEA]">
-            <div className="flex gap-4 pl-11">
-                <Image src={'/logo.svg'} alt={'Логотип'} width={40} height={40} />
-                <Image src={'/text_logo.svg'} alt={'Логотип'} width={140} height={40} />
+
+            <div onClick={() => router.push('/')} className="cursor-pointer flex gap-4 pl-11">
+                    <Image src={'/logo.svg'} alt={'Логотип'} width={40} height={40} />
+                    <Image src={'/text_logo.svg'} alt={'Логотип'} width={140} height={40} />
             </div>
             <div className="flex items-center gap-8 pr-11">
                 <div onClick={toggleCart} className="flex gap-2 cursor-pointer">
@@ -46,13 +50,15 @@ export default function Header(props: Props) {
                         <AlertDialogContent>
                             <AlertDialogHeader>
                                 <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md"></input>
+                                <AlertDialogDescription className="grid-cols-2">
+                                    <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md mb-2"></input>
+                                    <input onChange={e => setName(e.target.value)} placeholder={'Напишите ваше имя'} className="resize-none text-xl border-2 placeholder rounded-md"></input>
                                 </AlertDialogDescription>
+                                <AlertDialogDescription className="text-primary_purple">Если вы уже регистрировались, введите те же данные</AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                                 <AlertDialogAction className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white">
-                                    <button onClick={() => Register(inputNumber)}>
+                                    <button onClick={() => Register(inputNumber, inputname)}>
                                         Отправить
                                     </button>
                                 </AlertDialogAction>

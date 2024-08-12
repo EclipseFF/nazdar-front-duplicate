@@ -1,4 +1,5 @@
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 interface SidebarProps{
     setActiveSection: (section: Link) => void
@@ -12,9 +13,10 @@ export interface Link {
 }
 
 export default function Sidebar({setActiveSection, links}: SidebarProps) {
+    const router = useRouter()
     return (
         <nav className="w-64 h-screen bg-white p-4 shadow-lg flex flex-col overflow-y-auto rounded-[12px]">
-            <div className="flex gap-4 pb-6 pt-4">
+            <div onClick={() => router.push('/')} className=" cursor-pointer flex gap-4 pb-6 pt-4">
                 <Image src={'/logo.svg'} alt={'Логотип'} width={40} height={40}/>
                 <Image src={'/text_logo.svg'} alt={'Логотип'} width={140} height={40}/>
             </div>

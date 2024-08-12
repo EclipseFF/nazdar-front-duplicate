@@ -21,7 +21,6 @@ export default async function GetCartItems(): Promise<CartItemModel[]> {
 
         return items;
     } catch (e) {
-        console.log(e);
         return []
     }
 }

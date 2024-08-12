@@ -4,34 +4,22 @@ import {apiUrl} from "@/lib/api";
 import {Item, User, Session} from "@/lib/models";
 import {cookies} from "next/headers";
 
-/*export default async function Register(phoneNumber: string)  {
-    const headers: Headers = new Headers()
-
-    const request: RequestInfo = new Request(apiUrl +'/user', {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(phoneNumber)
-    })
-
-    return fetch(request)
-        .then(res => {
-            console.log("got response:", res)
-        })
-}*/
-
-export default async function Register(phoneNumber: string) {
+export default async function Register(phoneNumber: string, name: string) {
+    console.log(phoneNumber, name)
     const body = new FormData
     body.append("phoneNumber", phoneNumber)
+    body.append("name", name)
     try {
         const response = await fetch(apiUrl + '/user', {
             method: "POST",
             body: body
         });
         const json = await response.json();
-
+        console.log(json)
         const User: User = {
             id: json.user.id,
-            phoneNumber: json.user.phone
+            phoneNumber: json.user.phone,
+            name: json.user.name
         }
         const Session: Session ={
             userId: json.session.userId,

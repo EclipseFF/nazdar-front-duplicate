@@ -19,7 +19,6 @@ export default function Sidebar({setActiveSection, links}: SidebarProps) {
     return (
             <nav className="w-64 p-4 bg-white shadow-lg rounded-[12px]">
                 <ul className="flex flex-col gap-4">
-
                     {
                         links.map(link => (
                             <button key={link.link}
@@ -33,8 +32,7 @@ export default function Sidebar({setActiveSection, links}: SidebarProps) {
                     <li className="text-red-700 border-b-2 flex items-center gap-2 pb-4">
                         <Image src={'/icons/close.svg'} alt={'Выход'} width={24} height={24}/>
                         <button onClick={() => {
-                            Logout()
-                            router.push('/')
+                            Logout().then(r => router.push('/') )
                         }}>Выход</button>
                     </li>
                 </ul>

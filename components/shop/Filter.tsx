@@ -2,12 +2,22 @@
 
 import Image from "next/image";
 import {usePathname, useRouter, useSearchParams} from "next/navigation";
-import {Suspense, useCallback} from "react";
+import {Suspense, useCallback, useEffect, useState} from "react";
+import {Category, Item} from "@/lib/models";
+import GetAllCategories from "@/actions/categories/get-all-categories";
+
+
 
 export default function Filters(){
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
+
+    const [categories, setCategories] = useState<Category[]>([])
+
+    useEffect(() => {
+        GetAllCategories().then((categories) => setCategories(categories))
+    }, [])
 
     const createQueryString = useCallback(
         (name:string, value:string) => {
@@ -27,57 +37,77 @@ export default function Filters(){
     return(
         <div className="flex items-center gap-16 py-4 pb-10">
             <p className="font-bold text-[32px] pr-16">Каталог</p>
-            <div className="grid grid-rows-2 gap-3">
-                <div className="flex gap-2">
-                    <Suspense>
-                        <button
-                            className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold" onClick={() => {
-                                router.push(pathname + '?' + createQueryString('category', 'bouquets'))
-                            }}
-                        >
-                            Букеты
-                        </button>
-                        <button
-                            className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {
-                            router.push(pathname + '?' + createQueryString('category', 'parfumes'))
-                        }}
-                        >
-                            Парфюм
-                        </button>
-                        <button
-                            className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {
-                            router.push(pathname + '?' + createQueryString('category', 'roomplants'))
-                        }}
-                        >
-                            Комнатные
-                            растения
-                        </button>
-                    </Suspense>
-                </div>
-                <div className="flex gap-2">
-                    <Suspense>
-                        <button className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {
-                            router.push(pathname + '?' + createQueryString('category', 'softtoys'))
-                        }}
-                        >
-                            Мягкие
-                            игрушки
-                        </button>
-                        <button className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {
-                            router.push(pathname + '?' + createQueryString('category', 'sweets'))
-                        }}
-                        >
-                            Сладости
-                        </button>
-                        <button className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {
-                            router.push(pathname + '?' + createQueryString('category', 'baloons'))
-                        }}
-                        >
-                            Воздушные
-                            шары
-                        </button>
-                    </Suspense>
-                </div>
+            <div className="flex gap-2 flex-wrap basis-1/2 max-w-[500px]">
+                {categories.map((category) => (
+                    <button
+                        key={category.id}
+                        className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold" onClick={() => {
+                        router.push(pathname + '?' + createQueryString('category', category.name))
+                    }}
+                    >
+                        {category.name}
+                    </button>
+                ))}
+                {/*<div className="flex gap-2">*/}
+                {/*    <Suspense>*/}
+                {/*        {categories.map((category) => (*/}
+                {/*            <button*/}
+                {/*                key={category.id}*/}
+                {/*                className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold" onClick={() => {*/}
+                {/*                    router.push(pathname + '?' + createQueryString('category', category.name))*/}
+                {/*                }}*/}
+                {/*            >*/}
+                {/*                {category.name}*/}
+                {/*            </button>*/}
+                {/*        ))}*/}
+                {/*        <button*/}
+                {/*            className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold" onClick={() => {*/}
+                {/*                router.push(pathname + '?' + createQueryString('category', 'bouquets'))*/}
+                {/*            }}*/}
+                {/*        >*/}
+                {/*            Букеты*/}
+                {/*        </button>*/}
+                {/*        <button*/}
+                {/*            className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {*/}
+                {/*            router.push(pathname + '?' + createQueryString('category', 'parfumes'))*/}
+                {/*        }}*/}
+                {/*        >*/}
+                {/*            Парфюм*/}
+                {/*        </button>*/}
+                {/*        <button*/}
+                {/*            className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {*/}
+                {/*            router.push(pathname + '?' + createQueryString('category', 'roomplants'))*/}
+                {/*        }}*/}
+                {/*        >*/}
+                {/*            Комнатные*/}
+                {/*            растения*/}
+                {/*        </button>*/}
+                {/*    </Suspense>*/}
+                {/*</div>*/}
+                {/*<div className="flex gap-2">*/}
+                {/*    <Suspense>*/}
+                {/*        <button className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {*/}
+                {/*            router.push(pathname + '?' + createQueryString('category', 'softtoys'))*/}
+                {/*        }}*/}
+                {/*        >*/}
+                {/*            Мягкие*/}
+                {/*            игрушки*/}
+                {/*        </button>*/}
+                {/*        <button className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {*/}
+                {/*            router.push(pathname + '?' + createQueryString('category', 'sweets'))*/}
+                {/*        }}*/}
+                {/*        >*/}
+                {/*            Сладости*/}
+                {/*        </button>*/}
+                {/*        <button className="bg-primary_purple h-[30px] px-4 rounded-[6px] text-white font-bold"onClick={() => {*/}
+                {/*            router.push(pathname + '?' + createQueryString('category', 'baloons'))*/}
+                {/*        }}*/}
+                {/*        >*/}
+                {/*            Воздушные*/}
+                {/*            шары*/}
+                {/*        </button>*/}
+                {/*    </Suspense>*/}
+                {/*</div>*/}
             </div>
             <Suspense>
                 <div className="border border-primary_purple rounded-[10px] flex justify-center gap-x-1 items-center w-[250px] h-[45px]">
