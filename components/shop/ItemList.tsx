@@ -9,7 +9,7 @@ export default function ItemList(){
     const [items, setItems] = useState<Item[]>([])
 
     useEffect(() => {
-        GetAllItems().then((items) => setItems(items))
+        GetAllItems(100, 0).then((items) => setItems(items))
     }, [])
 
     return(

@@ -2,9 +2,9 @@
 import {apiUrl} from "@/lib/api";
 import {Item} from "@/lib/models";
 
-export default async function GetAllItems(): Promise<Item[]> {
+export default async function GetAllItems(limit: number, offset: number): Promise<Item[]> {
     try {
-        const response = await fetch(apiUrl + '/test/all');
+        const response = await fetch(apiUrl + '/item?offset=' + offset + '&limit='+limit);
         const json = await response.json();
 
         let items: Item[] = [];

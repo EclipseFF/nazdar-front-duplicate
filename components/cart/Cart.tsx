@@ -3,9 +3,7 @@ import React, {useEffect, useState} from "react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area"
 import CartItem from "@/components/cart/CartItem";
-import {Item, CartItemModel} from "@/lib/models";
-import ItemCard from "@/components/shop/ItemCard";
-import GetAllItems from "@/actions/items/get-all";
+import {CartItemModel} from "@/lib/models";
 import GetCartItems from "@/actions/items/def";
 
 interface CartProps {
@@ -36,10 +34,12 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart }, props:CartItem
                     </h2>
                     <Image onClick={toggleCart} src={'/icons/close.svg'} alt={'Закрыть'} width={32} height={32}/>
                 </div>
-                <ScrollArea className="flex-1 space-y-5 p-4">
-                    {cartitems.map((cartitems) => (
-                        <CartItem key={cartitems.id} id={cartitems.id} name={cartitems.name} quantity={cartitems.quantity} price={cartitems.price} image={cartitems.image}/>
-                    ))}
+                <ScrollArea className="flex flex-col space-y-5 p-2">
+                    <div className="grid grid-cols-1 gap-4">
+                        {cartitems.map((cartitems) => (
+                            <CartItem key={cartitems.id} id={cartitems.id} name={cartitems.name} quantity={cartitems.quantity} price={cartitems.price} image={cartitems.image}/>
+                        ))}
+                    </div>
                 </ScrollArea>
                 <div className="p-4 border-t mt-auto">
                     <p className="text-lg font-semibold">

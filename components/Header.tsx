@@ -3,27 +3,24 @@ import Image from "next/image";
 import { useState } from "react";
 import Cart from "@/components/cart/Cart";
 import Link from 'next/link'
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel,
+    AlertDialogContent, AlertDialogDescription, AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
+import Register from "@/actions/users/register";
 
+interface Props {
+    token?: string
+}
 
-export default function Header() {
+export default function Header(props: Props) {
     const [isCartVisible, setIsCartVisible] = useState(false);
-    //const router = useRouter();
+    const [inputNumber, setInputNumber] = useState<string>("")
     const toggleCart = () => {
         setIsCartVisible(!isCartVisible);
-
-        // const promoSlider = document.getElementById("promo-slider");
-        // if(promoSlider) {
-        //     if (isCartVisible){
-        //         promoSlider.style.opacity="1"
-        //     } else if (!isCartVisible){
-        //         promoSlider.style.opacity="0.5"
-        //     }
-        // }
-        // if (isCartVisible) {
-        //    document.getElementById("promo-slider").style.opacity="1";
-        // } else {
-        //    document.getElementById("promo-slider").style.opacity="0.5";
-        // }
     };
 
     return (
@@ -43,7 +40,26 @@ export default function Header() {
                 </div>
                 <div className="flex gap-2 cursor-pointer">
                     <Image src={'/icons/profile.svg'} alt={'Профиль'} width={18} height={17} />
-                    <Link href={'/profile'}>Профиль</Link>
+                    {props.token ? <Link href={'/profile'}>Профиль</Link> :
+                    <AlertDialog>
+                        <AlertDialogTrigger>Профиль</AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md"></input>
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogAction className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white">
+                                    <button onClick={() => Register(inputNumber)}>
+                                        Отправить
+                                    </button>
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                    }
                 </div>
             </div>
                 <Cart isCartVisible={isCartVisible} toggleCart={toggleCart} />

@@ -2,14 +2,16 @@
 import Image from "next/image";
 import {useState} from "react";
 import type {Item} from "@/lib/models";
+import {apiUrl} from "@/lib/api";
 
 
 export default function ItemCard(props: Item) {
     const [count, setCount] = useState(1);
+
     return (
         <div className="w-[210px] h-[390px] border-2 border-[#F3F3F3] rounded-[40px]" >
             <div className="grid justify-items-center pt-4">
-                <Image src={props.images[0]} alt={'Товар'} width={175} height={200} className="rounded-[30px]" />
+                <Image src={apiUrl + "/images/" + props.id + "/" + props.images[0]} alt={'Товар'} width={175} height={200} className="rounded-[30px]" />
             </div>
             <p className="font-semibold md:font-bold pl-5">{props.name}</p>
             <p className="text-gray-400 pl-4 pt-3">Цена:</p>
