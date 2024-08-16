@@ -5,7 +5,7 @@ import {clsx} from "clsx";
 
 export default function PromoSlider(){
     return (
-        <div className={clsx("w-full max-w-[300px] mx-auto md:max-w-[900px]")} id="promo-slider">
+        <div className={clsx("w-full max-w-[350px] mx-auto md:max-w-[900px]")} id="promo-slider">
             <Carousel>
                 <CarouselContent>
                     <CarouselItem>
@@ -42,8 +42,8 @@ export default function PromoSlider(){
                         </div>
                     </CarouselItem>
                 </CarouselContent>
-                <CarouselPrevious/>
-                <CarouselNext/>
+                <CarouselPrevious className="hidden md:visible"/>
+                <CarouselNext className="hidden md:visible"/>
             </Carousel>
         </div>
     )
