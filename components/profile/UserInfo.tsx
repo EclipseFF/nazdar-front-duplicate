@@ -1,7 +1,7 @@
 'use client'
 export default function UserInfo() {
     return (
-        <div className="p-4 md:p-6 bg-white shadow-md rounded-lg mx-auto max-w-xs md:max-w-none">
+        <div className="p-4 md:p-6 bg-white rounded-lg mx-auto max-w-xs md:max-w-none">
             <h2 className="text-lg md:text-xl font-bold mb-4 text-center">Профиль</h2>
             <div className="space-y-4 text-center md:text-left">
                 <div>

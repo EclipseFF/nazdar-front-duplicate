@@ -3,7 +3,7 @@ import {redirect} from "next/navigation";
 
 export default function Profile(){
     return (
-        <div className="p-6 bg-white shadow-md">
+        <div className="p-6 bg-white">
             <h2 className="text-xl font-bold mb-4">Вопросы и ответы</h2>
             <ul className="space-y-4">
                 <li>

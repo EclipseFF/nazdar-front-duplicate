@@ -3,7 +3,7 @@ import {redirect} from "next/navigation";
 
 export default function Profile(){
     return (
-        <div className="p-6 bg-white shadow-md">
+        <div className="p-6 bg-white">
             <h2 className="text-xl font-bold mb-4">Служба поддержки</h2>
             <p className="text-gray-700 mb-4">
                 Если у вас возникли вопросы или проблемы, свяжитесь с нашей службой поддержки.

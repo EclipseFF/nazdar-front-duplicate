@@ -54,10 +54,10 @@ export default function Header(props: Props) {
                             </button>
                     }
                     <AlertDialog open={isOpen}>
-                        <AlertDialogContent>
+                        <AlertDialogContent className="w-[400px] md:w-full">
                             <AlertDialogHeader>
                                 <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
-                                <AlertDialogDescription className="grid grid-cols-2 gap-2">
+                                <AlertDialogDescription className="grid grid-rows-2 gap-2 w-[300px] md:w-full">
                                     <input
                                         onChange={e => setInputNumber(e.target.value)}
                                         placeholder={'Напишите ваш номер'}
@@ -75,7 +75,7 @@ export default function Header(props: Props) {
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogAction className="w-full">
+                                <AlertDialogAction className="w-[300px] md:w-full">
                                     <button
                                         className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white w-full p-2 rounded-md"
                                         onClick={() => {
