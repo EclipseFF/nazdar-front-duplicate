@@ -54,10 +54,13 @@ export default function Header(props: Props) {
                             </button>
                     }
                     <AlertDialog open={isOpen}>
-                        <AlertDialogContent className="w-[400px] md:w-full">
+                        <AlertDialogContent className="w-[90%] max-w-[400px] md:max-w-[600px] p-4">
                             <AlertDialogHeader>
+                                <div className="flex justify-between mb-4">
                                 <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
-                                <AlertDialogDescription className="grid grid-rows-2 gap-2 w-[300px] md:w-full">
+                                    <Image onClick={() => setIsOpen(false)} src={'/icons/close.svg'} alt={'Закрыть'} width={32} height={32}/>
+                                </div>
+                                <AlertDialogDescription className="grid grid-cols-1 gap-2 w-full">
                                     <input
                                         onChange={e => setInputNumber(e.target.value)}
                                         placeholder={'Напишите ваш номер'}
@@ -70,14 +73,14 @@ export default function Header(props: Props) {
                                     />
                                     {error !== "" && <p className="text-red-700">{error}</p>}
                                 </AlertDialogDescription>
-                                <AlertDialogDescription className="text-primary_purple">
+                                <AlertDialogDescription className="text-primary_purple mt-4">
                                     Если вы уже регистрировались, введите те же данные
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogAction className="w-[300px] md:w-full">
+                                <AlertDialogAction className="w-full">
                                     <button
-                                        className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white w-full p-2 rounded-md"
+                                        className="bg-primary_purple hover:opacity-50 text-white w-full p-2 rounded-md"
                                         onClick={() => {
                                             if (inputNumber !== "" && inputname !== "") {
                                                 Register(inputNumber, inputname).then(() => location.reload())
