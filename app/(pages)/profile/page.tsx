@@ -37,13 +37,12 @@ export default function Page() {
     }
 
     return (
-        <div className="flex justify-items-center gap-8 pl-[100px] pb-6 pt-6 bg-white">
+        <div className="max-w-[410px] md:max-w-full flex flex-col md:flex-row justify-center items-center gap-8 p-6 bg-white">
             <Sidebar setActiveSection={setActiveSection} links={links}/>
 
-            <div className="bg-white p-6 rounded-lg shadow-md w-full">
+            <div className="bg-white p-4 md:p-6 rounded-lg shadow-md max-w-[300px] md:max-w-full w-full">
                 {renderSection()}
             </div>
-
         </div>
     )
 }

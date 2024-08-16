@@ -32,57 +32,57 @@ export default function ItemCard(props: Props) {
     const [error, setError] = useState<string>("")
 
     return (
-        <div className="w-[210px] h-[390px] border-2 border-[#F3F3F3] rounded-[40px]" >
+        <div className="w-[150px] h-[300px] md:w-[210px] md:h-[390px] border-2 border-[#F3F3F3] rounded-[40px]" >
             <div className="grid justify-items-center pt-4">
-                <Image src={apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]} alt={'Товар'} width={175} height={200} className="rounded-[30px]" />
+                <Image src={apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]} alt={'Товар'} width={120} height={150} className="rounded-[30px] md:w-[175px] md:h-[200px]" />
             </div>
-            <p className="font-semibold md:font-bold pl-5">{props.Item.name}</p>
-            <p className="text-gray-400 pl-4 pt-3">Цена:</p>
-            <div className="flex items-center gap-3">
-                <p className="font-bold pl-4">{props.Item.price.toString() + ' тг.'}</p>
-                <div className="flex items-center gap-3">
+            <p className="text-sm md:text-base font-semibold md:font-bold pl-3 md:pl-5">{props.Item.name}</p>
+            <p className="text-gray-400 pl-3 md:pl-4 pt-3 text-xs md:text-sm">Цена:</p>
+            <div className="flex items-center gap-2 md:gap-3 pl-3 md:pl-4">
+                <p className="text-sm md:text-base font-bold">{props.Item.price.toString() + ' тг.'}</p>
+                <div className="flex items-center gap-2 md:gap-3">
                     <button onClick={()=>{count === 0 ? setCount(0) : setCount(count-1)}}>
-                        <Image src={'/icons/decrease.svg'} alt={'-'} width={30} height={30}/>
+                        <Image src={'/icons/decrease.svg'} alt={'-'} width={25} height={25} />
                     </button>
-                    <p>{count}</p>
+                    <p className="text-sm md:text-base">{count}</p>
                     <button onClick={()=>{setCount(count+1)}}>
-                        <Image src={'/icons/increase.svg'} alt={'+'} width={30} height={30}/>
+                        <Image src={'/icons/increase.svg'} alt={'+'} width={25} height={25} />
                     </button>
                 </div>
             </div>
             <div className="flex justify-center pt-4">
                 {!props.token && (
-                        <AlertDialog open={isOpen}>
-                            <AlertDialogContent>
-                                <AlertDialogHeader>
-                                    <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
-                                    <AlertDialogDescription className="grid-cols-2">
-                                        <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md mb-2" ></input>
-                                        <input onChange={e => setName(e.target.value)} placeholder={'Напишите ваше имя'} className="resize-none text-xl border-2 placeholder rounded-md"></input>
-                                        {error !== "" && <p className="text-red-500">{error}</p>}
-                                    </AlertDialogDescription>
-                                    <AlertDialogDescription className="text-primary_purple">Если вы уже регистрировались, введите те же данные</AlertDialogDescription>
-                                </AlertDialogHeader>
-                                <AlertDialogFooter>
-                                    <AlertDialogAction className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white">
-                                        <button onClick={() => {
-                                            if (inputNumber !== "" && inputname !== "") {
-                                                Register(inputNumber, inputname).then(() => location.reload())
-                                            }
-                                            else {
-                                                setError("Заполните все поля")
-                                            }
-                                        }}>
-                                            Отправить
-                                        </button>
-                                    </AlertDialogAction>
-                                </AlertDialogFooter>
-                            </AlertDialogContent>
-                        </AlertDialog>
+                    <AlertDialog open={isOpen}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
+                                <AlertDialogDescription className="grid-cols-2">
+                                    <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md mb-2" />
+                                    <input onChange={e => setName(e.target.value)} placeholder={'Напишите ваше имя'} className="resize-none text-xl border-2 placeholder rounded-md" />
+                                    {error !== "" && <p className="text-red-500">{error}</p>}
+                                </AlertDialogDescription>
+                                <AlertDialogDescription className="text-primary_purple">Если вы уже регистрировались, введите те же данные</AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogAction className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white">
+                                    <button onClick={() => {
+                                        if (inputNumber !== "" && inputname !== "") {
+                                            Register(inputNumber, inputname).then(() => location.reload())
+                                        }
+                                        else {
+                                            setError("Заполните все поля")
+                                        }
+                                    }}>
+                                        Отправить
+                                    </button>
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 )}
-                    <button onClick={() => {
-                        {!props.token && setIsOpen(true)}
-                        {props.token && count > 0 && (
+                <button onClick={() => {
+                    {!props.token && setIsOpen(true)}
+                    {props.token && count > 0 && (
                         AddCartItem({
                             id: props.Item.id,
                             name: props.Item.name,
@@ -90,10 +90,10 @@ export default function ItemCard(props: Props) {
                             quantity: count,
                             image: apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]
                         }, props.token))}
-                    }}
-                            className="w-[170px] h-[40px] bg-primary_purple rounded-[6px] text-white font-bold text-[12px] ">В
-                        корзину</button>
-
+                }}
+                        className="w-[120px] h-[30px] md:w-[170px] md:h-[40px] bg-primary_purple rounded-[6px] text-white font-bold text-[10px] md:text-[12px] ">
+                    В корзину
+                </button>
             </div>
         </div>
     )

@@ -29,26 +29,27 @@ export default function Header(props: Props) {
     const router = useRouter()
 
     return (
-        <div className="flex justify-between h-32 bg-white rounded-t-[20px] border-b border-b-[#EAEAEA]">
+        <div className="max-w-[410px] md:max-w-full flex flex-col md:flex-row justify-between items-center h-auto md:h-32 bg-white rounded-t-[20px] border-b border-b-[#EAEAEA] p-4 md:p-0">
 
-            <div onClick={() => router.push('/')} className="cursor-pointer flex gap-4 pl-11">
-                    <Image src={'/logo.svg'} alt={'Логотип'} width={40} height={40} />
-                    <Image src={'/text_logo.svg'} alt={'Логотип'} width={140} height={40} />
+            <div onClick={() => router.push('/')} className="cursor-pointer flex items-center gap-2 md:gap-2 mb-4 md:mb-2 md:pl-11">
+                <Image src={'/logo.svg'} alt={'Логотип'} width={30} height={30} className="md:w-[40px] md:h-[40px]" />
+                <Image src={'/text_logo.svg'} alt={'Логотип'} width={100} height={30} className="md:w-[140px] md:h-[40px]" />
             </div>
-            <div className="flex items-center gap-8 pr-11">
-                <div onClick={toggleCart} className="flex gap-2 cursor-pointer">
-                    <Image src={'/icons/cart.svg'} alt={'Корзина'} width={18} height={17} />
-                    <p>10 512 тг.</p>
+
+            <div className="flex flex-col md:flex-row items-center md:items-end gap-4 md:gap-8 md:ml-auto md:mr-11">
+                <div onClick={toggleCart} className="flex items-center gap-1 md:gap-2 cursor-pointer">
+                    <Image src={'/icons/cart.svg'} alt={'Корзина'} width={14} height={14} className="md:w-[18px] md:h-[17px]" />
+                    <p className="text-sm md:text-base">10 512 тг.</p>
                 </div>
-                <div className="flex gap-2 cursor-pointer">
-                    <Image src={'/icons/favs.svg'} alt={'Избранное'} width={18} height={17} />
-                    <Link href={'/favourites'}>Избранное</Link>
+                <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
+                    <Image src={'/icons/favs.svg'} alt={'Избранное'} width={14} height={14} className="md:w-[18px] md:h-[17px]" />
+                    <Link href={'/favourites'} className="text-sm md:text-base">Избранное</Link>
                 </div>
-                <div className="flex gap-2 cursor-pointer">
-                    <Image src={'/icons/profile.svg'} alt={'Профиль'} width={18} height={17} />
+                <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
+                    <Image src={'/icons/profile.svg'} alt={'Профиль'} width={14} height={14} className="md:w-[18px] md:h-[17px]" />
                     {
-                        props.token ? <Link href={'/profile'}>Профиль</Link> :
-                            <button onClick={() => setIsOpen(true)}>
+                        props.token ? <Link href={'/profile'} className="text-sm md:text-base">Профиль</Link> :
+                            <button onClick={() => setIsOpen(true)} className="text-sm md:text-base">
                                 Профиль
                             </button>
                     }
@@ -56,22 +57,34 @@ export default function Header(props: Props) {
                         <AlertDialogContent>
                             <AlertDialogHeader>
                                 <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
-                                <AlertDialogDescription className="grid-cols-2">
-                                    <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md mb-2"></input>
-                                    <input onChange={e => setName(e.target.value)} placeholder={'Напишите ваше имя'} className="resize-none text-xl border-2 placeholder rounded-md"></input>
+                                <AlertDialogDescription className="grid grid-cols-2 gap-2">
+                                    <input
+                                        onChange={e => setInputNumber(e.target.value)}
+                                        placeholder={'Напишите ваш номер'}
+                                        className="resize-none text-xl border-2 placeholder rounded-md mb-2 w-full p-2"
+                                    />
+                                    <input
+                                        onChange={e => setName(e.target.value)}
+                                        placeholder={'Напишите ваше имя'}
+                                        className="resize-none text-xl border-2 placeholder rounded-md w-full p-2"
+                                    />
                                     {error !== "" && <p className="text-red-700">{error}</p>}
                                 </AlertDialogDescription>
-                                <AlertDialogDescription className="text-primary_purple">Если вы уже регистрировались, введите те же данные</AlertDialogDescription>
+                                <AlertDialogDescription className="text-primary_purple">
+                                    Если вы уже регистрировались, введите те же данные
+                                </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogAction className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white">
-                                    <button onClick={() => {
-                                        if (inputNumber !== "" && inputname !== "") {
-                                            Register(inputNumber, inputname).then(() => location.reload())
-                                        } else {
-                                            setError("Заполните все поля")
-                                        }
-                                    }}>
+                                <AlertDialogAction className="w-full">
+                                    <button
+                                        className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white w-full p-2 rounded-md"
+                                        onClick={() => {
+                                            if (inputNumber !== "" && inputname !== "") {
+                                                Register(inputNumber, inputname).then(() => location.reload())
+                                            } else {
+                                                setError("Заполните все поля")
+                                            }
+                                        }}>
                                         Отправить
                                     </button>
                                 </AlertDialogAction>
@@ -80,6 +93,7 @@ export default function Header(props: Props) {
                     </AlertDialog>
                 </div>
             </div>
+
             <Cart isCartVisible={isCartVisible} toggleCart={toggleCart}/>
         </div>
     );

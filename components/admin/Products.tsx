@@ -1,8 +1,21 @@
 'use client'
-import {redirect, useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { Item } from "@/lib/models";
+import GetAllItems from "@/actions/items/get-all";
+import {apiUrl} from "@/lib/api";
+import Image from "next/image";
 
-export default function Products(){
+export default function Products() {
+    const [items, setItems] = useState<Item[]>([]);
+
+    useEffect(() => {
+        GetAllItems(100, 0).then((items) => setItems(items));
+    }, []);
+
+    const router = useRouter();
+
     return (
         <div className="bg-white rounded-lg shadow-lg p-4">
             <div className="flex justify-between items-center mb-4">
@@ -31,103 +44,29 @@ export default function Products(){
                         <th className="p-2 text-left">Цена</th>
                         <th className="p-2 text-left">Количество заказов</th>
                         <th className="p-2 text-left">Дата создания</th>
+                        <th className="p-2 text-left">Изображения</th>
                         <th className="p-2 text-left"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr className="border-b">
-                        <td className="p-2">Букет роз</td>
-                        <td className="p-2">Букеты</td>
-                        <td className="p-2">12 990</td>
-                        <td className="p-2">21</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr><tr className="border-b">
-                        <td className="p-2">Букет роз</td>
-                        <td className="p-2">Букеты</td>
-                        <td className="p-2">12 990</td>
-                        <td className="p-2">21</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr><tr className="border-b">
-                        <td className="p-2">Букет роз</td>
-                        <td className="p-2">Букеты</td>
-                        <td className="p-2">12 990</td>
-                        <td className="p-2">21</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr><tr className="border-b">
-                        <td className="p-2">Букет роз</td>
-                        <td className="p-2">Букеты</td>
-                        <td className="p-2">12 990</td>
-                        <td className="p-2">21</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr>
-
-                    <tr className="border-b">
-                        <td className="p-2">Плюшевый медведь</td>
-                        <td className="p-2">Мягкие игрушки</td>
-                        <td className="p-2">18 990</td>
-                        <td className="p-2">50</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr><tr className="border-b">
-                        <td className="p-2">Плюшевый медведь</td>
-                        <td className="p-2">Мягкие игрушки</td>
-                        <td className="p-2">18 990</td>
-                        <td className="p-2">50</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr><tr className="border-b">
-                        <td className="p-2">Плюшевый медведь</td>
-                        <td className="p-2">Мягкие игрушки</td>
-                        <td className="p-2">18 990</td>
-                        <td className="p-2">50</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr><tr className="border-b">
-                        <td className="p-2">Плюшевый медведь</td>
-                        <td className="p-2">Мягкие игрушки</td>
-                        <td className="p-2">18 990</td>
-                        <td className="p-2">50</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr><tr className="border-b">
-                        <td className="p-2">Плюшевый медведь</td>
-                        <td className="p-2">Мягкие игрушки</td>
-                        <td className="p-2">18 990</td>
-                        <td className="p-2">50</td>
-                        <td className="p-2">17.05.2024</td>
-                        <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
-                            <button className="text-red-500">Delete</button>
-                        </td>
-                    </tr>
+                    {items.map((item) => (
+                        <tr key={item.id} className="border-b">
+                            <td className="p-2">{item.name}</td>
+                            <td className="p-2">Букеты</td>
+                            <td className="p-2">{item.price}</td>
+                            <td className="p-2">21</td>
+                            <td className="p-2">17.05.2024</td>
+                            <td className="p-2">
+                                {item.images.map(() => (
+                                    <Image key={item.id} src={apiUrl + "/images/" + item.id + "/" + item.images[0]} alt={'Товар'} width={50} height={75} className="rounded-[30px]" />
+                                ))}
+                            </td>
+                            <td className="p-2 flex space-x-2">
+                                <button className="text-blue-500">Edit</button>
+                                <button className="text-red-500">Delete</button>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
@@ -137,5 +76,5 @@ export default function Products(){
                 <button className="bg-gray-100 p-2 rounded-lg">Вперед</button>
             </div>
         </div>
-    )
+    );
 }

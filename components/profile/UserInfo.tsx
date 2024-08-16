@@ -1,11 +1,9 @@
 'use client'
-import {redirect} from "next/navigation";
-
-export default function UserInfo(){
+export default function UserInfo() {
     return (
-        <div className="p-6 bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Профиль</h2>
-            <div className="space-y-4">
+        <div className="p-4 md:p-6 bg-white shadow-md rounded-lg mx-auto max-w-xs md:max-w-none">
+            <h2 className="text-lg md:text-xl font-bold mb-4 text-center">Профиль</h2>
+            <div className="space-y-4 text-center md:text-left">
                 <div>
                     <label className="block text-gray-700 font-semibold">Имя:</label>
                     <p className="text-gray-900">Иван Иванович</p>
@@ -27,7 +25,7 @@ export default function UserInfo(){
                     <p className="text-gray-900">01.01.2020</p>
                 </div>
             </div>
-            <button className="mt-4 bg-pink-500 text-white px-4 py-2 rounded">Редактировать профиль</button>
+            <button className="mt-4 bg-pink-500 text-white px-4 py-2 rounded w-full">Редактировать профиль</button>
         </div>
-    )
+    );
 }
