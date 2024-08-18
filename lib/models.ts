@@ -3,6 +3,8 @@ export interface Item {
     name: string
     price: number
     images: string[]
+    description?: string
+    categories?: Category[]
 }
 
 export interface CartItemModel {

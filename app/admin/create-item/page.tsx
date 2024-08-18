@@ -1,10 +1,13 @@
 import CreateItemForm from "@/components/admin/CreateItemForm";
+import GetAllCategories from "@/actions/categories/get-all-categories";
 
 
-export default function Page(){
+export default async function Page(){
+    const categories = await GetAllCategories()
+
     return (
         <div>
-            <CreateItemForm />
+            <CreateItemForm categories={categories} />
         </div>
     )
 }

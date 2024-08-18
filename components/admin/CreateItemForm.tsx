@@ -4,14 +4,16 @@ import {useState} from "react";
 import {apiUrl} from "@/lib/api";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
+import {Category} from "@/lib/models";
 
-export default function CreateItemForm(){
+export default function CreateItemForm({categories}: {categories: Category[]}) {
     const router = useRouter()
 
     const [name, setName] = useState<string>("")
     const [price, setPrice] = useState<number>(0)
     const [description, setDescription] = useState<string>("")
     const [images, setImages] = useState<File[]>([])
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -29,6 +31,7 @@ export default function CreateItemForm(){
         formData.append("name", name)
         formData.append("price", price.toString())
         formData.append("description", description)
+        formData.append("categories", JSON.stringify(selectedCategories))
         images.forEach((image) => {
             formData.append("images", image)
         })
@@ -72,6 +75,27 @@ export default function CreateItemForm(){
 
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
+                    Выберите категории
+                </label>
+                <select
+                    multiple
+                    value={selectedCategories}
+                    onChange={e => {
+                        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
+                        setSelectedCategories(selectedOptions);
+                    }}
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+                >
+                    {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                            {category.name}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2">
                     Введите описание
                 </label>
                 <textarea
@@ -98,7 +122,8 @@ export default function CreateItemForm(){
                 <div className="mb-6 grid grid-cols-2 gap-4">
                     {images.map((image, index) => (
                         <div key={index} className="relative group">
-                            <Image src={URL.createObjectURL(image)} alt="preview" width={200} height={200} className="rounded-lg"/>
+                            <Image src={URL.createObjectURL(image)} alt="preview" width={200} height={200}
+                                   className="rounded-lg"/>
                             <button onClick={() => removeImage(index)}
                                     className="absolute top-2 right-2 bg-red-600 text-white text-sm rounded-full p-1 opacity-75 hover:opacity-100 transition-opacity"
                             >

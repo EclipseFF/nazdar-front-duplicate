@@ -1,25 +1,27 @@
-import {CartItemModel, Category} from "@/lib/models";
+'use server'
 import {apiUrl} from "@/lib/api";
+import {CartItemModel, Item} from "@/lib/models";
 
-export default async function GetCartItems(cartitems: CartItemModel): Promise<CartItemModel> {
-    const response = await fetch(apiUrl + '/cart')
-    const json = await response.json();
-    let cartItem: CartItemModel[] = [];
-
-    if (Array.isArray(json)) {
-        json.forEach((cartItem) => {
+export default async function GetCartItems(token?: string): Promise<CartItemModel[]> {
+    try {
+        const response = await fetch(apiUrl + '/cart/' + token);
+        const json = await response.json();
+        let items: CartItemModel[] = [];
+        json.forEach((cartitem: any) => {
+            console.log(cartitem)
             const temp: CartItemModel = {
-                id: cartItem.id,
-                name: cartItem.name,
-                price: cartItem.price,
-                quantity: cartItem.quantity,
-                image: cartItem.image
+                id: cartitem.id,
+                name: cartitem.name,
+                quantity: cartitem.count,
+                price: cartitem.price,
+                image: cartitem.images[0]
             }
-            cartItem.push(temp);
+
+            items.push(temp);
         })
+        return items;
+    } catch (e) {
+
+        return []
     }
-
-
-    return cartitems
-
 }

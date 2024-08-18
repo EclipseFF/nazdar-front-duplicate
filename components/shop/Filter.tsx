@@ -28,7 +28,6 @@ export default function Filters(){
     )
 
     function handleSearch(term: string){
-        console.log(term)
         router.push(pathname + '?' + createQueryString('search', term))
     }
 
@@ -36,12 +35,21 @@ export default function Filters(){
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 py-4 pb-10">
             <p className="font-bold text-xl md:text-[32px] pr-0 md:pr-8">Каталог</p>
             <div className="flex md:flex-wrap overflow-x-auto md:overflow-x-visible gap-2 basis-full md:basis-1/2 max-w-[300px] md:max-w-[500px] bg-white">
+                <button
+                    className="bg-primary_purple h-[28px] px-2 md:px-3 rounded-[6px] text-white font-bold text-[10px] md:text-sm"
+                    onClick={() => {
+                        location.href = pathname
+                    }}
+                >
+                    Все категории
+                </button>
+
                 {categories.map((category) => (
                     <button
                         key={category.id}
                         className="bg-primary_purple h-[28px] px-2 md:px-3 rounded-[6px] text-white font-bold text-[10px] md:text-sm"
                         onClick={() => {
-                            router.push(pathname + '?' + createQueryString('category', category.name))
+                            location.href = pathname + '?' + createQueryString('category', category.name)
                         }}
                     >
                         {category.name}
@@ -53,6 +61,7 @@ export default function Filters(){
                     <Image src={'/icons/search.svg'} alt={'Поиск'} width={19} height={19}/>
                     <input
                         placeholder="Поиск..."
+                        value={searchParams.get('search') ?? '' }
                         className="w-full text-primary_purple border-0 focus:outline-0 placeholder:text-primary_purple px-2"
                         onChange={(e) => handleSearch(e.target.value)}
                     />

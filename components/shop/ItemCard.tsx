@@ -89,7 +89,7 @@ export default function ItemCard(props: Props) {
                             price: props.Item.price,
                             quantity: count,
                             image: apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]
-                        }, props.token))}
+                        }, props.token).then(() => location.reload()))}
                 }}
                         className="w-[120px] h-[30px] md:w-[170px] md:h-[40px] bg-primary_purple rounded-[6px] text-white font-bold text-[10px] md:text-[12px] ">
                     В корзину

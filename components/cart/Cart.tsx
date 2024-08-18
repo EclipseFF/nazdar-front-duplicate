@@ -4,25 +4,30 @@ import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import CartItem from "@/components/cart/CartItem";
 import { CartItemModel } from "@/lib/models";
-import GetCartItems from "@/actions/items/def";
+
 import { useSwipeable, SwipeableHandlers } from 'react-swipeable';
+import GetCartItems from "@/actions/cart/get-cart-items";
+import Checkout from "@/actions/cart/checkout";
 
 interface CartProps {
     isCartVisible: boolean;
     toggleCart: () => void;
+    token?: string;
 }
 
-const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart }, props: CartItemModel) => {
-    const [cartitems, setCartItems] = useState<CartItemModel[]>([]);
+const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: CartItemModel) => {
+    const [cartItems, setCartItems] = useState<CartItemModel[]>([]);
     const [isClosing, setIsClosing] = useState(false); // State for triggering the closing animation
 
     useEffect(() => {
-        GetCartItems().then((cartitems) => setCartItems(cartitems));
+        GetCartItems(token).then((cartItems) => setCartItems(cartItems));
     }, []);
 
-    const totalPrice = cartitems.reduce((total, item) => {
-        return total + (item.quantity * item.price);
-    }, 0);
+    function totalPrice() {
+        return cartItems.reduce((total, item) => {
+            return total + (item.quantity * item.price);
+        }, 0);
+    }
 
     // Handlers for swipe actions (Mobile)
     const handlers: SwipeableHandlers = useSwipeable({
@@ -60,8 +65,8 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart }, props: CartIte
                 </div>
                 <ScrollArea className="flex flex-col space-y-5 p-2">
                     <div className="grid grid-cols-1 gap-4">
-                        {cartitems.map((cartitem) => (
-                            <CartItem key={cartitem.id} id={cartitem.id} name={cartitem.name} quantity={cartitem.quantity} price={cartitem.price} image={cartitem.image} />
+                        {cartItems.map((cartitem) => (
+                            <CartItem key={cartitem.id} props={cartitem} token={token}/>
                         ))}
                     </div>
                 </ScrollArea>
@@ -89,16 +94,18 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart }, props: CartIte
                 </div>
                 <ScrollArea className="flex flex-col space-y-5 p-2">
                     <div className="grid grid-cols-1 gap-4">
-                        {cartitems.map((cartitem) => (
-                            <CartItem key={cartitem.id} id={cartitem.id} name={cartitem.name} quantity={cartitem.quantity} price={cartitem.price} image={cartitem.image} />
+                        {cartItems.map((cartitem) => (
+                            <CartItem key={cartitem.id} props={cartitem} token={token}/>
                         ))}
                     </div>
                 </ScrollArea>
                 <div className="p-4 border-t mt-auto">
                     <p className="text-lg font-semibold">
-                        Итого: {totalPrice.toLocaleString()} тг.
+                        Итого: {totalPrice()} тг.
                     </p>
-                    <button className="w-full mt-4 bg-primary_purple text-white p-2 rounded-lg">
+                    <button className="w-full mt-4 bg-primary_purple text-white p-2 rounded-lg" onClick={() =>
+                        Checkout(cartItems, token).then(() =>
+                            location.href = "https://wa.me/+77025059900?text=Здравствуйте,%20интересует%20ваше%20объявление%20о%20продаже%20машины.")}>
                         Заказ в 1 клик
                     </button>
                 </div>

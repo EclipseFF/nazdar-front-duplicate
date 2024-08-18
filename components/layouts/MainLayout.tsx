@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import {cookies} from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 const montserrat = Montserrat({ subsets: ["cyrillic"] });
@@ -16,10 +17,11 @@ export default function MainLayout({
                                    }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const userToken = cookies().get("token")?.value;
     return (
         <html lang="ru">
         <body className={montserrat.className + " bg-bg_pink p-2 md:p-10"}>
-        <Header />
+        <Header token={userToken} />
         {children}
         </body>
         </html>

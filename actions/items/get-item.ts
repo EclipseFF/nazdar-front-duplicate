@@ -8,7 +8,6 @@ export default async function GetItemById(id: number){
         const json = await response.json();
         return json
     } catch (e) {
-        console.log(e);
         return "Error"
     }
 }
