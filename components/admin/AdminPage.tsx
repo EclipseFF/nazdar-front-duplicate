@@ -43,6 +43,6 @@ export default function AdminPage() {
                     {renderSection()}
                 </div>
             </div>
-            </div>
+        </div>
     )
 }

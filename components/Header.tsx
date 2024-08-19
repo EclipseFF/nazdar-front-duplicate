@@ -58,8 +58,13 @@ export default function Header(props: Props) {
                     </p>
                 </div>
                 <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
-                    <Image src={'/icons/favs.svg'} alt={'Избранное'} width={14} height={14} className="md:w-[18px] md:h-[17px]" />
-                    <Link href={'/favourites'} className="text-sm md:text-base">Избранное</Link>
+                    <Image src={'/icons/orders.svg'} alt={'Избранное'} width={14} height={14} className="md:w-[18px] md:h-[17px]" />
+                    {
+                        props.token ? <Link href={'/profile#favs'} className="text-sm md:text-base">Мои заказы</Link> :
+                            <button onClick={() => setIsOpen(true)} className="text-sm md:text-base">
+                                Мои заказы
+                            </button>
+                    }
                 </div>
                 <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
                     <Image src={'/icons/profile.svg'} alt={'Профиль'} width={14} height={14} className="md:w-[18px] md:h-[17px]" />
@@ -73,7 +78,7 @@ export default function Header(props: Props) {
                         <AlertDialogContent className="w-[90%] max-w-[400px] md:max-w-[600px] p-4">
                             <AlertDialogHeader>
                                 <div className="flex justify-between mb-4">
-                                <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
+                                    <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
                                     <Image onClick={() => setIsOpen(false)} src={'/icons/close.svg'} alt={'Закрыть'} width={32} height={32}/>
                                 </div>
                                 <AlertDialogDescription className="grid grid-cols-1 gap-2 w-full">
