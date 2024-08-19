@@ -45,7 +45,9 @@ export default function Categories(){
                         <td className="p-2">{category.name}</td>
                         <td className="p-2">55</td>
                         <td className="p-2 flex space-x-2">
-                            <button className="text-blue-500">Edit</button>
+                            <Link href={`/admin/edit-category/${category.id}`}>
+                                <button className="text-blue-500">Edit</button>
+                            </Link>
                             <button onClick={() => DeleteCategory(category).then(router.refresh)} className="text-red-500">Delete</button>
                         </td>
                     </tr>
