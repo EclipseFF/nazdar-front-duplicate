@@ -5,19 +5,30 @@ import Orders from "@/components/profile/Orders";
 import Favourite from "@/components/profile/Favourite";
 import Support from "@/components/profile/Support";
 import Faq from "@/components/profile/Faq";
-import {useState} from "react";
+import {useState, useEffect} from "react";
+import { useRouter } from "next/navigation";
 import type {Link} from "@/components/profile/Sidebar";
 
 const links: Link[] = [
     {link: 'userinfo', name: 'Профиль', icon: '/icons/profile.svg'},
     {link: 'orders', name: 'Мои заказы', icon: '/icons/orders.svg'},
-    {link: 'favs', name: 'Избранное', icon: '/icons/favorite.svg'},
     {link: 'support', name: 'Поддержка', icon: '/icons/support.svg'},
     {link: 'faq', name: 'FAQ', icon: '/icons/faq.svg'}
 ]
 
 export default function Page() {
     const [activeSection, setActiveSection] = useState<Link>();
+    const router = useRouter();
+
+    useEffect(() => {
+        const hash = window.location.hash.substring(1); // get the hash without the "#"
+        const section = links.find(link => link.link === hash);
+        if (section) {
+            setActiveSection(section);
+        } else {
+            setActiveSection(links[0]); // Default to the first section
+        }
+    }, []);
 
     const renderSection = () => {
         switch (activeSection?.link) {
@@ -25,8 +36,6 @@ export default function Page() {
                 return <UserInfo />
             case 'orders':
                 return <Orders />
-            case 'favs':
-                return <Favourite />
             case 'support':
                 return <Support />
             case 'faq':
