@@ -6,7 +6,10 @@ export default async function UpdateCategory(category: { id: number, name: strin
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(category),
+        body: JSON.stringify({
+            id: category.id,
+            name: category.name
+        })
     });
 
     if (!response.ok) {
