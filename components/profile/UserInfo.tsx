@@ -1,31 +1,74 @@
 'use client'
-export default function UserInfo() {
+
+import { useEffect, useState } from "react";
+import { GetUserById} from "@/actions/users/get-user-by-id";
+import { User } from "@/lib/models";
+import UpdateUser from "@/actions/users/update-user";
+
+export default function UserInfo({ userId }: { userId: number }) {
+    const [user, setUser] = useState<User | null>(null);
+    const [name, setName] = useState<string>("");
+    const [phoneNumber, setPhoneNumber] = useState<string>("");
+
+    useEffect(() => {
+        async function fetchUserData() {
+            const userData = await GetUserById(userId);
+            if (userData) {
+                setUser(userData);
+                if (userData && userData.name) {
+                    setName(userData.name);
+                }
+                setPhoneNumber(userData.phoneNumber);
+            }
+        }
+
+        fetchUserData();
+    }, [userId]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (user) {
+            const updatedUser = await UpdateUser({
+                id: user.id,
+                phone: phoneNumber,
+                name: name
+            });
+
+            if (updatedUser) {
+                setUser(updatedUser);
+                alert('Информация обновлена успешно');
+            } else {
+                alert('Не удалось обновить информацию');
+            }
+        }
+    };
+
     return (
-        <div className="p-4 md:p-6 bg-white rounded-lg mx-auto max-w-xs md:max-w-none">
-            <h2 className="text-lg md:text-xl font-bold mb-4 text-center">Профиль</h2>
-            <div className="space-y-4 text-center md:text-left">
-                <div>
-                    <label className="block text-gray-700 font-semibold">Имя:</label>
-                    <p className="text-gray-900">Иван Иванович</p>
+        <div className="p-6 bg-white rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Информация о пользователе</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                    <label htmlFor="name" className="block text-gray-700">Имя</label>
+                    <input
+                        type="text"
+                        id="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    />
                 </div>
-                <div>
-                    <label className="block text-gray-700 font-semibold">Email:</label>
-                    <p className="text-gray-900">ivan.ivanovich@example.com</p>
+                <div className="mb-4">
+                    <label htmlFor="phoneNumber" className="block text-gray-700">Телефон</label>
+                    <input
+                        type="text"
+                        id="phoneNumber"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                    />
                 </div>
-                <div>
-                    <label className="block text-gray-700 font-semibold">Телефон:</label>
-                    <p className="text-gray-900">+7 (999) 123-45-67</p>
-                </div>
-                <div>
-                    <label className="block text-gray-700 font-semibold">Адрес:</label>
-                    <p className="text-gray-900">г. Москва, ул. Примерная, д. 1</p>
-                </div>
-                <div>
-                    <label className="block text-gray-700 font-semibold">Дата регистрации:</label>
-                    <p className="text-gray-900">01.01.2020</p>
-                </div>
-            </div>
-            <button className="mt-4 bg-pink-500 text-white px-4 py-2 rounded w-full">Редактировать профиль</button>
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Сохранить</button>
+            </form>
         </div>
     );
 }
