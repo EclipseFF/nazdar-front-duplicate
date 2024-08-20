@@ -1,29 +1,29 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import { GetUserById} from "@/actions/users/get-user-by-id";
+import { GetUserByToken} from "@/actions/users/get-user-by-id";
 import { User } from "@/lib/models";
 import UpdateUser from "@/actions/users/update-user";
 
-export default function UserInfo({ userId }: { userId: number }) {
+export default function UserInfo({ token }: { token: string | null }) {
     const [user, setUser] = useState<User | null>(null);
     const [name, setName] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
 
     useEffect(() => {
         async function fetchUserData() {
-            const userData = await GetUserById(userId);
-            if (userData) {
-                setUser(userData);
-                if (userData && userData.name) {
-                    setName(userData.name);
+            if (token) {
+                const userData = await GetUserByToken();  // Pass token to your API call
+                if (userData) {
+                    setUser(userData);
+                    setName(userData.name || "");
+                    setPhoneNumber(userData.phoneNumber || "");
                 }
-                setPhoneNumber(userData.phoneNumber);
             }
         }
 
         fetchUserData();
-    }, [userId]);
+    }, [token]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
