@@ -32,3 +32,11 @@ export interface Category{
     id: number
     name: string
 }
+
+export interface Order {
+    id: number;
+    itemName: string;
+    price: string;
+    imageUrl: string;
+    userId: number;
+}

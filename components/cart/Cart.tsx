@@ -37,22 +37,21 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: 
     });
 
     const handleClose = () => {
-        setIsClosing(true); // Start the closing animation
+        setIsClosing(true);
         setTimeout(() => {
-            setIsClosing(false); // Reset the closing state
-            toggleCart(); // Actually close the cart
-        }, 300); // Match this duration to your CSS transition duration
+            setIsClosing(false);
+            toggleCart();
+        }, 300);
     };
 
-    if (!isCartVisible && !isClosing) return null; // Only render if visible or closing
+    if (!isCartVisible && !isClosing) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex justify-center md:justify-end">
             <div className="fixed inset-0 bg-black bg-opacity-50" onClick={handleClose} />
 
-            {/* Mobile version: Popup from bottom */}
             <div
-                {...handlers} // Attach the swipe handlers to the mobile cart container
+                {...handlers}
                 className={`fixed bottom-0 w-full max-w-md h-3/4 bg-white p-4 shadow-lg rounded-t-lg md:hidden flex flex-col transform transition-transform duration-300 ${
                     isClosing ? "translate-y-full" : "translate-y-0"
                 }`}
@@ -80,7 +79,7 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: 
                 </div>
             </div>
 
-            {/* Desktop version: Sidebar from the right */}
+            
             <div
                 className={`hidden md:flex fixed right-0 top-0 w-80 h-full bg-white p-4 shadow-lg z-10 flex-col transform transition-transform duration-300 ${
                     isClosing ? "translate-x-full" : "translate-x-0"
