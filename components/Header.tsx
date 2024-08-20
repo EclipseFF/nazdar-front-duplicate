@@ -60,7 +60,7 @@ export default function Header(props: Props) {
                 <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
                     <Image src={'/icons/orders.svg'} alt={'Избранное'} width={14} height={14} className="md:w-[18px] md:h-[17px]" />
                     {
-                        props.token ? <Link href={'/profile#favs'} className="text-sm md:text-base">Мои заказы</Link> :
+                        props.token ? <Link href={'/profile#orders'} className="text-sm md:text-base">Мои заказы</Link> :
                             <button onClick={() => setIsOpen(true)} className="text-sm md:text-base">
                                 Мои заказы
                             </button>

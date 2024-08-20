@@ -32,7 +32,7 @@ export default function Sidebar({ setActiveSection, links }: SidebarProps) {
             <nav
                 className={`${
                     isOpen ? "translate-x-0" : "-translate-x-full"
-                } transform md:transform-none fixed md:relative top-0 left-0 h-full w-64 p-4 bg-white shadow-lg rounded-r-[12px] transition-transform duration-300 ease-in-out z-40`}
+                } transform md:transform-none fixed md:relative top-0 left-0 h-full w-64 p-4 bg-white shadow-lg rounded-r-[12px] md:rounded-[12px] transition-transform duration-300 ease-in-out z-40`}
             >
                 <ul className="flex flex-col gap-4 mt-12 md:mt-0">
                     {links.map((link) => (

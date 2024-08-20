@@ -2,7 +2,6 @@
 import UserInfo from "@/components/profile/UserInfo";
 import Sidebar from "@/components/profile/Sidebar";
 import Orders from "@/components/profile/Orders";
-import Favourite from "@/components/profile/Favourite";
 import Support from "@/components/profile/Support";
 import Faq from "@/components/profile/Faq";
 import {useState, useEffect} from "react";

@@ -5,6 +5,7 @@ import ItemList from "@/components/shop/ItemList";
 import Filters from "@/components/shop/Filter";
 import {Suspense} from "react";
 import {cookies} from "next/headers";
+import ContactUsButton from "@/components/ContactUsButton";
 
 export default function Home() {
   const userToken = cookies().get("token")?.value
@@ -16,6 +17,7 @@ export default function Home() {
             <Filters />
           </Suspense>
           <ItemList token={userToken} />
+          <ContactUsButton />
       </div>
   )
 }
