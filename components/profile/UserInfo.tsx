@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { GetUserById} from "@/actions/users/get-user-by-id";
 import { User } from "@/lib/models";
-import {UpdateUser} from "@/actions/users/update-user";
+import UpdateUser from "@/actions/users/update-user";
 
 export default function UserInfo({ userId }: { userId: number }) {
     const [user, setUser] = useState<User | null>(null);
