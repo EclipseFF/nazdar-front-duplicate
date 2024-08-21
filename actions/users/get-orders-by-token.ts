@@ -6,7 +6,7 @@ import {CartItemModel} from "@/lib/models";
 export async function GetOrdersByToken(token: string): Promise<CartItemModel[]> {
     console.log(token)
     try {
-        const response = await fetch(`${apiUrl}/orders/` + token);
+        const response = await fetch(`${apiUrl}/user/orders/` + token);
         if (!response.ok) {
             return [];
         }
