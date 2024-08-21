@@ -34,7 +34,7 @@ export default function ItemCard(props: Props) {
     return (
         <div className="w-[150px] h-[300px] md:w-[210px] md:h-[390px] border-2 border-[#F3F3F3] rounded-[40px]" >
             <div className="grid justify-items-center pt-4">
-                <Image src={apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]} alt={'Товар'} width={120} height={150} className="rounded-[30px] w-[115px] h-[130px] md:w-[175px] md:h-[200px]" />
+                {props.Item.images && props.Item.images.length > 0 && <Image src={apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]} alt={'Товар'} width={120} height={150} className="rounded-[30px] w-[115px] h-[130px] md:w-[175px] md:h-[200px]" />}
             </div>
             <p className="text-sm md:text-base font-semibold md:font-bold pl-3 md:pl-5">{props.Item.name}</p>
             <p className="text-gray-400 pl-3 md:pl-4 pt-3 text-xs md:text-sm">Цена:</p>
@@ -88,7 +88,7 @@ export default function ItemCard(props: Props) {
                             name: props.Item.name,
                             price: props.Item.price,
                             quantity: count,
-                            image: apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]
+                            image: props.Item.images && apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]
                         }, props.token).then(() => location.reload()))}
                 }}
                         className="w-[120px] h-[30px] md:w-[170px] md:h-[40px] bg-primary_purple rounded-[6px] text-white font-bold text-[10px] md:text-[12px] ">

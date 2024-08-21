@@ -8,20 +8,21 @@ export default async function GetCartItems(token?: string): Promise<CartItemMode
         const json = await response.json();
         let items: CartItemModel[] = [];
         json.forEach((cartitem: any) => {
-            console.log(cartitem)
+            let img = ""
+            cartitem.images ? img = cartitem.images[0] : img = ""
+
             const temp: CartItemModel = {
                 id: cartitem.id,
                 name: cartitem.name,
                 quantity: cartitem.count,
                 price: cartitem.price,
-                image: cartitem.images[0]
+                image: img
             }
 
             items.push(temp);
         })
         return items;
     } catch (e) {
-
         return []
     }
 }

@@ -11,7 +11,7 @@ export async function GetOrdersByToken(token: string): Promise<CartItemModel[]> 
             return [];
         }
         const json = await response.json();
-        console.log(json)
+
         const cartItems: CartItemModel[] = json.map((item: any) => ({
             id: item.id,
             name: item.itemName,
@@ -22,7 +22,7 @@ export async function GetOrdersByToken(token: string): Promise<CartItemModel[]> 
 
         return cartItems;
     } catch (e) {
-        console.log(e)
+
         return [];
     }
 
