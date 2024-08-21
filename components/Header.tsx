@@ -21,11 +21,12 @@ interface Props {
 
 export default function Header(props: Props) {
     const [isCartVisible, setIsCartVisible] = useState(false);
-    const [inputNumber, setInputNumber] = useState<string>("")
+    const [inputNumber, setInputNumber] = useState<string>("+7 ")
     const [inputName, setName] = useState<string>("")
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
     const [cartItems, setCartItems] = useState<CartItemModel[]>([])
+
     const toggleCart = () => {
         setIsCartVisible(!isCartVisible);
     };
@@ -36,12 +37,33 @@ export default function Header(props: Props) {
         }, 0);
     }
 
+    const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 1) {
+            value = `+7 ${value.substring(1, 11)}`;
+        } else {
+            value = "+7 ";
+        }
+        console.log(value)
+        setInputNumber(value);
+    }
+
+    const handleSubmit = () => {
+        if (inputNumber !== "" && inputName !== "") {
+            const formattedNumber = inputNumber.replace(/\s+/g, '');
+            Register(formattedNumber, inputName).then(() => location.reload())
+        } else {
+            setError("Заполните все поля")
+        }
+    }
+
     const router = useRouter()
     useEffect(() => {
         if (props.token) {
             GetCartItems(props.token).then((cartItems) => setCartItems(cartItems))
         }
     }, [props.token]);
+
     return (
         <div className="max-w-[410px] md:max-w-full flex flex-col md:flex-row justify-between items-center h-auto md:h-32 bg-white rounded-t-[20px] border-b border-b-[#EAEAEA] p-4 md:p-0">
 
@@ -83,8 +105,9 @@ export default function Header(props: Props) {
                                 </div>
                                 <AlertDialogDescription className="grid grid-cols-1 gap-2 w-full">
                                     <input
-                                        onChange={e => setInputNumber(e.target.value)}
-                                        placeholder={'Напишите ваш номер'}
+                                        value={inputNumber}
+                                        onChange={handlePhoneNumberChange}
+                                        placeholder={'Введите номер телефона'}
                                         className="resize-none text-xl border-2 placeholder rounded-md mb-2 w-full p-2"
                                     />
                                     <input
@@ -102,13 +125,7 @@ export default function Header(props: Props) {
                                 <AlertDialogAction className="w-full">
                                     <button
                                         className="bg-primary_purple hover:opacity-50 text-white w-full p-2 rounded-md"
-                                        onClick={() => {
-                                            if (inputNumber !== "" && inputName !== "") {
-                                                Register(inputNumber, inputName).then(() => location.reload())
-                                            } else {
-                                                setError("Заполните все поля")
-                                            }
-                                        }}>
+                                        onClick={handleSubmit}>
                                         Отправить
                                     </button>
                                 </AlertDialogAction>
