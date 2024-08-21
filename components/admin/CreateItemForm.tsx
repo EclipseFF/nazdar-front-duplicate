@@ -1,12 +1,13 @@
 'use client'
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {apiUrl} from "@/lib/api";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {Category} from "@/lib/models";
+import GetAllCategories from "@/actions/categories/get-all-categories";
 
-export default function CreateItemForm({categories}: {categories: Category[]}) {
+export default function CreateItemForm() {
     const router = useRouter()
 
     const [name, setName] = useState<string>("")
@@ -14,7 +15,7 @@ export default function CreateItemForm({categories}: {categories: Category[]}) {
     const [description, setDescription] = useState<string>("")
     const [images, setImages] = useState<File[]>([])
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
+    const [categories, setCategories] = useState<Category[]>([]);
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const filesArray = Array.from(event.target.files)
@@ -46,6 +47,11 @@ export default function CreateItemForm({categories}: {categories: Category[]}) {
         })
     }
 
+    useEffect(() => {
+        GetAllCategories().then((categories) => {
+            setCategories(categories)
+        })
+    }, [])
 
     return (
         <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
