@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import CartItem from "@/components/cart/CartItem";
-import { CartItemModel } from "@/lib/models";
+import {CartItemModel, User} from "@/lib/models";
 
 import { useSwipeable, SwipeableHandlers } from 'react-swipeable';
 import GetCartItems from "@/actions/cart/get-cart-items";
 import Checkout from "@/actions/cart/checkout";
+import {GetUserByToken} from "@/actions/users/get-user-by-id";
 
 interface CartProps {
     isCartVisible: boolean;
@@ -18,10 +19,11 @@ interface CartProps {
 const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: CartItemModel) => {
     const [cartItems, setCartItems] = useState<CartItemModel[]>([]);
     const [isClosing, setIsClosing] = useState(false); // State for triggering the closing animation
-
+    const [user, setUser] = useState<User>({} as User)
     useEffect(() => {
         GetCartItems(token).then((cartItems) => setCartItems(cartItems));
-    }, []);
+        GetUserByToken(token || "").then((user) => setUser(user));
+    }, [token]);
 
     function totalPrice() {
         return cartItems.reduce((total, item) => {
@@ -104,7 +106,7 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: 
                     </p>
                     <button className="w-full mt-4 bg-primary_purple text-white p-2 rounded-lg" onClick={() =>
                         Checkout(cartItems, token).then(() =>
-                            location.href = "https://wa.me/+77025059900?text=Здравствуйте,%20интересует%20ваше%20объявление%20о%20продаже%20машины.")}>
+                            location.href = "https://wa.me/+77025059900?text=Здравствуйте,%20пишу%20насчет%20заказа%20на%имя%20" + user.name + ".")}>
                         Заказ в 1 клик
                     </button>
                 </div>

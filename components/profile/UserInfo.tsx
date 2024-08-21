@@ -5,41 +5,34 @@ import { GetUserByToken} from "@/actions/users/get-user-by-id";
 import { User } from "@/lib/models";
 import UpdateUser from "@/actions/users/update-user";
 
-export default function UserInfo({ token }: { token: string | null }) {
-    const [user, setUser] = useState<User | null>(null);
+export default function UserInfo({ token }: { token: string}) {
+    const [user, setUser] = useState<User>({} as User);
     const [name, setName] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
 
     useEffect(() => {
-        async function fetchUserData() {
-            if (token) {
-                const userData = await GetUserByToken();  // Pass token to your API call
-                if (userData) {
-                    setUser(userData);
-                    setName(userData.name || "");
-                    setPhoneNumber(userData.phoneNumber || "");
+        if (token !== "") {
+            GetUserByToken(token).then((user) => {
+                if (user) {
+                    setName(user.name || "");
+                    setPhoneNumber(user.phoneNumber);
+                    setUser(user);
                 }
-            }
+            })
         }
 
-        fetchUserData();
     }, [token]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (user) {
-            const updatedUser = await UpdateUser({
-                id: user.id,
-                phone: phoneNumber,
-                name: name
-            });
-
-            if (updatedUser) {
-                setUser(updatedUser);
-                alert('Информация обновлена успешно');
-            } else {
-                alert('Не удалось обновить информацию');
-            }
+            UpdateUser({ id: user.id, phone: phoneNumber, name: name }).then((user) => {
+                if (user) {
+                    setName(user.name || "");
+                    setPhoneNumber(user.phoneNumber);
+                    setUser(user);
+                }
+            })
         }
     };
 

@@ -2,20 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { GetOrdersByUserId } from "@/actions/users/get-orders-by-user-id";
-import { Order } from "@/lib/models";
+import { GetOrdersByToken } from "@/actions/users/get-orders-by-token";
+import {CartItemModel, Order} from "@/lib/models";
+import {apiUrl} from "@/lib/api";
 
-export default function Orders() {
-    const [orders, setOrders] = useState<Order[]>([]);
+export default function Orders({token}: {token: string}) {
+    const [orders, setOrders] = useState<CartItemModel[]>([]);
 
     useEffect(() => {
-        const fetchOrders = async () => {
-            const userId = 1;
-            const fetchedOrders = await GetOrdersByUserId(userId);
-            setOrders(fetchedOrders);
-        };
-
-        fetchOrders();
+        GetOrdersByToken(token).then((resp) => (
+            setOrders(resp)
+        ))
     }, []);
 
     return (
@@ -28,17 +25,15 @@ export default function Orders() {
                         className="w-[210px] h-[390px] border-2 border-[#F3F3F3] rounded-[40px] grid justify-items-center pt-4"
                     >
                         <Image
-                            src={order.imageUrl}
-                            alt={order.itemName}
+                            src={apiUrl + "/images/" + order.id + "/" + order.image}
+                            alt={order.name}
                             width={175}
                             height={200}
                         />
                         <div>
-                            <h3 className="font-semibold text-lg">{order.itemName}</h3>
+                            <h3 className="font-semibold text-lg">{order.name}</h3>
                             <p className="text-gray-600">Цена: {order.price}</p>
-                        </div>
-                        <div className="flex space-x-2">
-                            <button className="bg-pink-500 text-white px-2 rounded mb-1">Заказать</button>
+                            <p className="text-gray-600">Количество: {order.quantity}</p>
                         </div>
                     </div>
                 ))}

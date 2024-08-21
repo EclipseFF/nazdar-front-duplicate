@@ -19,7 +19,7 @@ const links: Link[] = [
 
 export default function Page() {
     const [activeSection, setActiveSection] = useState<Link>();
-    const [token, setToken] = useState<string | null>(null);
+    const [token, setToken] = useState<string>("");
     const router = useRouter();
 
     useEffect(() => {
@@ -30,10 +30,7 @@ export default function Page() {
                 setToken(token);
             }
         })
-    }, []);
 
-
-    useEffect(() => {
         const hash = window.location.hash.substring(1);
         const section = links.find(link => link.link === hash);
         if (section) {
@@ -41,14 +38,16 @@ export default function Page() {
         } else {
             setActiveSection(links[0]);
         }
-    }, []);
+
+    }, [token]);
+
 
     const renderSection = () => {
         switch (activeSection?.link) {
             case 'userinfo':
                 return <UserInfo token = {token}/>
             case 'orders':
-                return <Orders />
+                return <Orders token={token} />
             case 'support':
                 return <Support />
             case 'faq':
