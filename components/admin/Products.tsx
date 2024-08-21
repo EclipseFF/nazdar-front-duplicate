@@ -67,9 +67,9 @@ export default function Products() {
                             </td>
                             <td className="p-2 flex space-x-2">
                                 <Link href={`/admin/edit-item/${item.id}`}>
-                                    <button className="text-blue-500">Edit</button>
+                                    <button className="text-blue-500">Ред.</button>
                                 </Link>
-                                <button className="text-red-500" onClick={() => {handleDeleteItem(item.id)}}>Delete</button>
+                                <button className="text-red-500" onClick={() => {handleDeleteItem(item.id)}}>Удалить</button>
                             </td>
                         </tr>
                     ))}
