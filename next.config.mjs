@@ -20,6 +20,12 @@ const nextConfig = {
                 port: '4000',
                 pathname: '/**',
             },
+            {
+                protocol: 'https',
+                hostname: 'nazdar.kz',
+                port: '',
+                pathname: '/**',
+            },
         ]
     }
 };

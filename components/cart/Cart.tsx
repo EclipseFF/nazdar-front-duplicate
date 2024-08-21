@@ -106,7 +106,7 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: 
                     </p>
                     <button className="w-full mt-4 bg-primary_purple text-white p-2 rounded-lg" onClick={() =>
                         Checkout(cartItems, token).then(() =>
-                            location.href = "https://wa.me/+77025059900?text=Здравствуйте,%20пишу%20насчет%20заказа%20на%имя%20" + user.name + ".")}>
+                            location.href = "https://wa.me/+77025059900?text=Здравствуйте,%20пишу%20насчет%20заказа%20на%20имя%20" + user.name + ".")}>
                         Заказ в 1 клик
                     </button>
                 </div>

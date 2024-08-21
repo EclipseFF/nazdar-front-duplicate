@@ -61,9 +61,9 @@ export default function Products() {
                             <td className="p-2">21</td>
                             <td className="p-2">17.05.2024</td>
                             <td className="p-2">
-                                {item.images && item.images.map(() => (
+                                {item.images &&
                                     <Image key={item.id} src={apiUrl + "/images/" + item.id + "/" + item.images[0]} alt={'Товар'} width={50} height={75} className="rounded-[30px]" />
-                                ))}
+                                }
                             </td>
                             <td className="p-2 flex space-x-2">
                                 <Link href={`/admin/edit-item/${item.id}`}>
