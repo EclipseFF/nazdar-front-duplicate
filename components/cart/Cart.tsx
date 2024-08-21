@@ -73,7 +73,7 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: 
                 </ScrollArea>
                 <div className="p-4 border-t mt-auto">
                     <p className="text-lg font-semibold">
-                        Итого: {totalPrice.toLocaleString()} тг.
+                        {cartItems && cartItems.length > 0 ? "Итого: " + totalPrice().toLocaleString() + " тг." : "Корзина пуста"}
                     </p>
                     <button className="w-full mt-4 bg-primary_purple text-white p-2 rounded-lg">
                         Заказ в 1 клик
@@ -102,7 +102,7 @@ const Cart: React.FC<CartProps> = ({ isCartVisible, toggleCart, token }, props: 
                 </ScrollArea>
                 <div className="p-4 border-t mt-auto">
                     <p className="text-lg font-semibold">
-                        Итого: {totalPrice()} тг.
+                        {cartItems && cartItems.length > 0 ? "Итого: " + totalPrice().toLocaleString() + " тг." : "Корзина пуста"}
                     </p>
                     <button className="w-full mt-4 bg-primary_purple text-white p-2 rounded-lg" onClick={() =>
                         Checkout(cartItems, token).then(() =>
