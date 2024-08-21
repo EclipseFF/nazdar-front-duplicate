@@ -7,6 +7,8 @@ import Faq from "@/components/profile/Faq";
 import {useState, useEffect} from "react";
 import { useRouter } from "next/navigation";
 import type {Link} from "@/components/profile/Sidebar";
+import {cookies} from "next/headers";
+import Logout from "@/actions/users/logout";
 
 const links: Link[] = [
     {link: 'userinfo', name: 'Профиль', icon: '/icons/profile.svg'},
@@ -17,22 +19,34 @@ const links: Link[] = [
 
 export default function Page() {
     const [activeSection, setActiveSection] = useState<Link>();
+    const [token, setToken] = useState<string | null>(null);
     const router = useRouter();
 
     useEffect(() => {
-        const hash = window.location.hash.substring(1); // get the hash without the "#"
+        const tokenValue = cookies().get('token')?.value;
+        if (!tokenValue) {
+            Logout().then(r => router.push('/')) ;
+        }
+        else {
+            setToken(tokenValue);
+        }
+    }, []);
+
+
+    useEffect(() => {
+        const hash = window.location.hash.substring(1);
         const section = links.find(link => link.link === hash);
         if (section) {
             setActiveSection(section);
         } else {
-            setActiveSection(links[0]); // Default to the first section
+            setActiveSection(links[0]);
         }
     }, []);
 
     const renderSection = () => {
         switch (activeSection?.link) {
             case 'userinfo':
-                return <UserInfo />
+                return <UserInfo token = {token}/>
             case 'orders':
                 return <Orders />
             case 'support':
@@ -40,7 +54,7 @@ export default function Page() {
             case 'faq':
                 return <Faq />
             default:
-                return <UserInfo />
+                return <UserInfo token = {token}/>
         }
     }
 

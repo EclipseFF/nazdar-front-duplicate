@@ -1,12 +1,23 @@
 "use server"
 
-import {apiUrl} from "@/lib/api";
-import {User} from "@/lib/models";
+import { apiUrl } from "@/lib/api";
+import { User } from "@/lib/models";
+import { cookies } from "next/headers"; // To fetch token from cookies in server-side
 
-export async function GetUserById(userId: number): Promise<User | null> {
+export async function GetUserByToken(): Promise<User | null> {
     try {
-        const response = await fetch(`${apiUrl}/user/${userId}`, {
+        const token = cookies().get('token')?.value;
+
+        if (!token) {
+            throw new Error('No token found in cookies');
+        }
+
+
+        const response = await fetch(`${apiUrl}/user/me`, {
             method: "GET",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
         });
 
         if (!response.ok) {
