@@ -7,8 +7,8 @@ import Faq from "@/components/profile/Faq";
 import {useState, useEffect} from "react";
 import { useRouter } from "next/navigation";
 import type {Link} from "@/components/profile/Sidebar";
-import {cookies} from "next/headers";
 import Logout from "@/actions/users/logout";
+import GetUserToken from "@/actions/users/get-token";
 
 const links: Link[] = [
     {link: 'userinfo', name: 'Профиль', icon: '/icons/profile.svg'},
@@ -23,13 +23,13 @@ export default function Page() {
     const router = useRouter();
 
     useEffect(() => {
-        const tokenValue = cookies().get('token')?.value;
-        if (!tokenValue) {
-            Logout().then(r => router.push('/')) ;
-        }
-        else {
-            setToken(tokenValue);
-        }
+        GetUserToken().then((token) => {
+            if (!token) {
+                Logout().then(r => router.push('/')) ;
+            }else {
+                setToken(token);
+            }
+        })
     }, []);
 
 
