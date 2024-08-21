@@ -4,13 +4,14 @@ import {apiUrl} from "@/lib/api";
 import {CartItemModel} from "@/lib/models";
 
 export async function GetOrdersByToken(token: string): Promise<CartItemModel[]> {
+    console.log(token)
     try {
-        const response = await fetch(`${apiUrl}/orders/token/` + token);
+        const response = await fetch(`${apiUrl}/orders/` + token);
         if (!response.ok) {
             return [];
         }
         const json = await response.json();
-
+        console.log(json)
         const cartItems: CartItemModel[] = json.map((item: any) => ({
             id: item.id,
             name: item.itemName,
@@ -21,6 +22,7 @@ export async function GetOrdersByToken(token: string): Promise<CartItemModel[]> 
 
         return cartItems;
     } catch (e) {
+        console.log(e)
         return [];
     }
 

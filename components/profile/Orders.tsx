@@ -13,7 +13,7 @@ export default function Orders({token}: {token: string}) {
         GetOrdersByToken(token).then((resp) => (
             setOrders(resp)
         ))
-    }, []);
+    }, [token]);
 
     return (
         <div className="p-6 bg-white rounded-lg">
