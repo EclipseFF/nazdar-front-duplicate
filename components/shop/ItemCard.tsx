@@ -31,10 +31,31 @@ export default function ItemCard(props: Props) {
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
 
+    const handlePhoneNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length > 1) {
+            value = `+7 ${value.substring(1, 11)}`;
+        } else {
+            value = "+7 ";
+        }
+        console.log(value)
+        setInputNumber(value);
+    }
+
+    const handleSubmit = () => {
+        if (inputNumber !== "" && inputname !== "") {
+            const formattedNumber = inputNumber.replace(/\s+/g, '');
+            Register(formattedNumber, inputname).then(() => location.reload())
+        } else {
+            setError("Заполните все поля")
+        }
+    }
+
+
     return (
         <div className="w-[150px] h-[300px] md:w-[210px] md:h-[390px] border-2 border-[#F3F3F3] rounded-[40px]" >
             <div className="grid justify-items-center pt-4">
-                {props.Item.images && props.Item.images.length > 0 && <Image src={apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]} alt={'Товар'} width={120} height={150} className="rounded-[30px] w-[115px] h-[130px] md:w-[175px] md:h-[200px]" />}
+                {props.Item.images && props.Item.images.length > 0 && <Image src={apiUrl + "/images/" + props.Item.id + "/" + props.Item.images[0]} alt={'Товар'} width={120} height={150} quality={100} objectFit="cover" className="rounded-[30px] w-[115px] h-[130px] md:w-[175px] md:h-[200px]" />}
             </div>
             <p className="text-sm md:text-base font-semibold md:font-bold pl-3 md:pl-5">{props.Item.name}</p>
             <p className="text-gray-400 pl-3 md:pl-4 pt-3 text-xs md:text-sm">Цена:</p>
@@ -53,26 +74,35 @@ export default function ItemCard(props: Props) {
             <div className="flex justify-center pt-4">
                 {!props.token && (
                     <AlertDialog open={isOpen}>
-                        <AlertDialogContent>
+                        <AlertDialogContent className="w-[90%] max-w-[400px] md:max-w-[600px] p-4">
                             <AlertDialogHeader>
-                                <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
-                                <AlertDialogDescription className="grid-cols-2">
-                                    <input onChange={e => setInputNumber(e.target.value)} placeholder={'Напишите ваш номер'} className="resize-none text-xl border-2 placeholder rounded-md mb-2" />
-                                    <input onChange={e => setName(e.target.value)} placeholder={'Напишите ваше имя'} className="resize-none text-xl border-2 placeholder rounded-md" />
-                                    {error !== "" && <p className="text-red-500">{error}</p>}
+                                <div className="flex justify-between mb-4">
+                                    <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
+                                    <Image onClick={() => setIsOpen(false)} src={'/icons/close.svg'} alt={'Закрыть'} width={32} height={32}/>
+                                </div>
+                                <AlertDialogDescription className="grid grid-cols-1 gap-2 w-full">
+                                    <input
+                                        value={inputNumber}
+                                        onChange={handlePhoneNumberChange}
+                                        placeholder={'Введите номер телефона'}
+                                        className="resize-none text-xl border-2 placeholder rounded-md mb-2 w-full p-2"
+                                    />
+                                    <input
+                                        onChange={e => setName(e.target.value)}
+                                        placeholder={'Напишите ваше имя'}
+                                        className="resize-none text-xl border-2 placeholder rounded-md w-full p-2"
+                                    />
+                                    {error !== "" && <p className="text-red-700">{error}</p>}
                                 </AlertDialogDescription>
-                                <AlertDialogDescription className="text-primary_purple">Если вы уже регистрировались, введите те же данные</AlertDialogDescription>
+                                <AlertDialogDescription className="text-primary_purple mt-4">
+                                    Если вы уже регистрировались, введите те же данные
+                                </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogAction className="bg-primary_purple hover:opacity-50 hover:bg-primary_purple text-white">
-                                    <button onClick={() => {
-                                        if (inputNumber !== "" && inputname !== "") {
-                                            Register(inputNumber, inputname).then(() => location.reload())
-                                        }
-                                        else {
-                                            setError("Заполните все поля")
-                                        }
-                                    }}>
+                                <AlertDialogAction className="w-full">
+                                    <button
+                                        className="bg-primary_purple hover:opacity-50 text-white w-full p-2 rounded-md"
+                                        onClick={handleSubmit}>
                                         Отправить
                                     </button>
                                 </AlertDialogAction>
