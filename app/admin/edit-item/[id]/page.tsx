@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import EditItemForm from "@/components/admin/EditItemForm";
 import { Item, Category } from "@/lib/models";
@@ -10,17 +10,16 @@ import GetItemById from "@/actions/items/get-item";
 
 export default function Page({ params }: { params: { id: string } }){
     const router = useRouter();
-    const { id } = router.query;  // Extract the item ID from the URL
 
     const [item, setItem] = useState<Item | null>(null);
     const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
-        if (id) {
+        if (params.id) {
             GetItemById(Number(params.id)).then((data) => setItem(data));
             GetAllCategories().then((data) => setCategories(data));
         }
-    }, [id]);
+    }, [params.id]);
 
     if (!item) {
         return <div>Loading...</div>;

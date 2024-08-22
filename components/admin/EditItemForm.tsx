@@ -5,6 +5,7 @@ import {apiUrl} from "@/lib/api";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {Category, Item} from "@/lib/models";
+import GetItemById from "@/actions/items/get-item";
 
 interface EditItemFormProps {
     item: Item;
@@ -12,54 +13,69 @@ interface EditItemFormProps {
 }
 
 export default function EditItemForm({item, categories}: EditItemFormProps) {
-    const router = useRouter()
+    const router = useRouter();
 
-    const [name, setName] = useState<string>(item.name)
-    const [price, setPrice] = useState<number>(item.price)
-    const [description, setDescription] = useState<string>(item?.description ?? "")
-    const [images, setImages] = useState<File[]>([])
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(item?.categories?.map(cat => cat.id.toString()) ?? []);
-    const [existingImages, setExistingImages] = useState<string[]>(item.images); // To handle existing images
+    const [name, setName] = useState<string>(item.name || "");
+    const [price, setPrice] = useState<number>(item.price || 0);
+    const [description, setDescription] = useState<string>(item.description || "");
+    const [images, setImages] = useState<File[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>(item.categories?.map(cat => cat.id.toString()) || []);
+    const [existingImages, setExistingImages] = useState<string[]>(item.images || []);
+
+    useEffect(() => {
+        if (item.id) {
+            GetItemById(item.id).then((fetchedItem) => {
+                if (fetchedItem) {
+                    setName(fetchedItem.name || "");
+                    setPrice(fetchedItem.price || 0);
+                    setDescription(fetchedItem.description || "");
+                    setSelectedCategories(fetchedItem.categories?.map((cat: { id: { toString: () => any; }; }) => cat.id.toString()) || []);
+                    setExistingImages(fetchedItem.images || []);
+                }
+            });
+        }
+    }, [item.id]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
-            const filesArray = Array.from(event.target.files)
-            setImages(prevImages => [...prevImages, ...filesArray])
+            const filesArray = Array.from(event.target.files);
+            setImages(prevImages => [...prevImages, ...filesArray]);
         }
-    }
+    };
 
     const removeImage = (index: number) => {
-        setImages(prevImages => prevImages.filter((_, i)=> i !== index))
-    }
+        setImages(prevImages => prevImages.filter((_, i) => i !== index));
+    };
 
     const removeExistingImage = (index: number) => {
         setExistingImages(prevImages => prevImages.filter((_, i) => i !== index));
-    }
+    };
 
     const handleUpdate = () => {
-        let formData: FormData = new FormData
-        formData.append("name", name)
-        formData.append("price", price.toString())
-        formData.append("description", description)
-        formData.append("categories", JSON.stringify(selectedCategories))
+        let formData: FormData = new FormData();
+        formData.append("id", item.id.toString());
+        formData.append("name", name);
+        formData.append("price", price.toString());
+        formData.append("description", description);
+        formData.append("categories", JSON.stringify(selectedCategories));
 
         existingImages.forEach((imageUrl) => {
-            formData.append("existingImages", imageUrl)
+            formData.append("existingImages", imageUrl);
         });
 
         images.forEach((image) => {
-            formData.append("images", image)
-        })
+            formData.append("images", image);
+        });
 
-        fetch(apiUrl + "/item/" + item.id, {
+        fetch(apiUrl + "/item", {
             method: "PUT",
             body: formData
         }).then((res) => {
             if (res.ok) {
-                router.push("/admin")
+                router.push("/admin");
             }
-        })
-    }
+        });
+    };
 
     return (
         <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
@@ -141,7 +157,7 @@ export default function EditItemForm({item, categories}: EditItemFormProps) {
                     <div className="grid grid-cols-2 gap-4">
                         {existingImages.map((image, index) => (
                             <div key={index} className="relative group">
-                                <Image src={image} alt="preview" width={200} height={200} className="rounded-lg"/>
+                                <Image src={apiUrl +image} alt="preview" width={200} height={200} className="rounded-lg"/>
                                 <button onClick={() => removeExistingImage(index)}
                                         className="absolute top-2 right-2 bg-red-600 text-white text-sm rounded-full p-1 opacity-75 hover:opacity-100 transition-opacity"
                                 >
@@ -176,5 +192,5 @@ export default function EditItemForm({item, categories}: EditItemFormProps) {
                 Обновить
             </button>
         </div>
-    )
+    );
 }
