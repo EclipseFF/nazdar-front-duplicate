@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import EditCategoryForm from "@/components/admin/EditCategoryForm";
 import GetCategoryById from "@/actions/categories/get-category";
 
-export default function EditCategoryPage() {
+export default function Page({ params }: { params: { id: string } }) {
     const router = useRouter();
     const { id } = router.query;  // Extract the category ID from the URL
 
@@ -13,7 +13,7 @@ export default function EditCategoryPage() {
 
     useEffect(() => {
         if (id) {
-            GetCategoryById(Number(id)).then((data) => setCategory(data));
+            GetCategoryById(Number(params.id)).then((data) => setCategory(data));
         }
     }, [id]);
 

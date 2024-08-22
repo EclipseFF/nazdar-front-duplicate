@@ -8,7 +8,7 @@ import GetAllCategories from "@/actions/categories/get-all-categories";
 import GetItemById from "@/actions/items/get-item";
 
 
-export default function Page(){
+export default function Page({ params }: { params: { id: string } }){
     const router = useRouter();
     const { id } = router.query;  // Extract the item ID from the URL
 
@@ -17,7 +17,7 @@ export default function Page(){
 
     useEffect(() => {
         if (id) {
-            GetItemById(Number(id)).then((data) => setItem(data));
+            GetItemById(Number(params.id)).then((data) => setItem(data));
             GetAllCategories().then((data) => setCategories(data));
         }
     }, [id]);
