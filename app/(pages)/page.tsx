@@ -11,7 +11,7 @@ export default function Home() {
   const userToken = cookies().get("token")?.value
 
   return (
-      <div className="max-w-[410px] md:max-w-full bg-white grid grid-cols-1 justify-items-center">
+      <div className="pb-10 max-w-[410px] md:max-w-full bg-white grid grid-cols-1 justify-items-center">
         <PromoSlider />
           <Suspense>
             <Filters />
