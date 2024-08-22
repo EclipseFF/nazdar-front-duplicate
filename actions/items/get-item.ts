@@ -1,19 +1,26 @@
 'use server'
 
 import {apiUrl} from "@/lib/api";
+import {Item} from "@/lib/models";
 
-export default async function GetItemById(id: number){
+export default async function GetItemById(id: number):Promise<Item>{
     try {
         const response = await fetch(apiUrl + `/item/${id}`);
         if (!response.ok) {
-            console.error("Failed to fetch the item:", response.status);
-            return null;
+            return {} as Item;
         }
+
         const json = await response.json();
-        console.log("API response:", json);
-        return json;
+        const item: Item = {
+            id: json.id,
+            name: json.name,
+            price: json.price,
+            images: json.images,
+            description: json.description,
+            categories: json.categoriesObj
+        }
+        return item;
     } catch (e) {
-        console.error("Error fetching item:", e);
-        return null;
+        return {} as Item;
     }
 }

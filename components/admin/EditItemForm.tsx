@@ -6,35 +6,34 @@ import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {Category, Item} from "@/lib/models";
 import GetItemById from "@/actions/items/get-item";
+import GetAllCategories from "@/actions/categories/get-all-categories";
 
 interface EditItemFormProps {
-    item: Item;
-    categories: Category[];
+    id: number
 }
 
-export default function EditItemForm({item, categories}: EditItemFormProps) {
+export default function EditItemForm({id}: EditItemFormProps) {
     const router = useRouter();
 
-    const [name, setName] = useState<string>(item.name || "");
-    const [price, setPrice] = useState<number>(item.price || 0);
-    const [description, setDescription] = useState<string>(item.description || "");
+    const [name, setName] = useState<string>("");
+    const [price, setPrice] = useState<number>(0);
+    const [description, setDescription] = useState<string>("");
     const [images, setImages] = useState<File[]>([]);
-    const [selectedCategories, setSelectedCategories] = useState<string[]>(item.categories?.map(cat => cat.id.toString()) || []);
-    const [existingImages, setExistingImages] = useState<string[]>(item.images || []);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [existingImages, setExistingImages] = useState<string[]>([]);
 
     useEffect(() => {
-        if (item.id) {
-            GetItemById(item.id).then((fetchedItem) => {
-                if (fetchedItem) {
-                    setName(fetchedItem.name || "");
-                    setPrice(fetchedItem.price || 0);
-                    setDescription(fetchedItem.description || "");
-                    setSelectedCategories(fetchedItem.categories?.map((cat: { id: { toString: () => any; }; }) => cat.id.toString()) || []);
-                    setExistingImages(fetchedItem.images || []);
-                }
-            });
-        }
-    }, [item.id]);
+        GetAllCategories().then((data) => setCategories(data));
+
+        GetItemById(id).then((data) => {
+            setName(data.name);
+            setPrice(data.price);
+            data.description && setDescription(data.description);
+            data.categories && setSelectedCategories(data.categories.map((category) => category.id.toString()));
+            setExistingImages(data.images);
+        })
+    }, [id]);
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
@@ -53,18 +52,18 @@ export default function EditItemForm({item, categories}: EditItemFormProps) {
 
     const handleUpdate = () => {
         let formData: FormData = new FormData();
-        formData.append("id", item.id.toString());
+        formData.append("id", id.toString());
         formData.append("name", name);
         formData.append("price", price.toString());
         formData.append("description", description);
         formData.append("categories", JSON.stringify(selectedCategories));
 
-        existingImages.forEach((imageUrl) => {
-            formData.append("existingImages", imageUrl);
+        existingImages && existingImages.forEach((imageUrl) => {
+            formData.append("oldImages", imageUrl);
         });
 
-        images.forEach((image) => {
-            formData.append("images", image);
+        images && images.forEach((image) => {
+            formData.append("newImages", image);
         });
 
         fetch(apiUrl + "/item", {
@@ -151,13 +150,13 @@ export default function EditItemForm({item, categories}: EditItemFormProps) {
                 />
             </div>
 
-            {existingImages.length > 0 && (
+            {existingImages && existingImages.length > 0 && (
                 <div className="mb-6">
                     <h3 className="text-lg font-bold mb-4">Существующие изображения</h3>
                     <div className="grid grid-cols-2 gap-4">
                         {existingImages.map((image, index) => (
                             <div key={index} className="relative group">
-                                <Image src={apiUrl +image} alt="preview" width={200} height={200} className="rounded-lg"/>
+                                <Image src={apiUrl + "/images/" + id + "/" + image} alt="preview" width={200} height={200} className="rounded-lg"/>
                                 <button onClick={() => removeExistingImage(index)}
                                         className="absolute top-2 right-2 bg-red-600 text-white text-sm rounded-full p-1 opacity-75 hover:opacity-100 transition-opacity"
                                 >
@@ -169,7 +168,7 @@ export default function EditItemForm({item, categories}: EditItemFormProps) {
                 </div>
             )}
 
-            {images.length > 0 && (
+            {/*{images.length > 0 && (
                 <div className="mb-6 grid grid-cols-2 gap-4">
                     {images.map((image, index) => (
                         <div key={index} className="relative group">
@@ -183,13 +182,13 @@ export default function EditItemForm({item, categories}: EditItemFormProps) {
                         </div>
                     ))}
                 </div>
-            )}
+            )}*/}
 
             <button
                 onClick={handleUpdate}
                 className="w-full bg-primary_purple text-white py-2 rounded-lg font-bold hover:bg-blue-600 transition-colors"
             >
-                Обновить
+                Сохранить
             </button>
         </div>
     );
