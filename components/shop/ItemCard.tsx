@@ -24,7 +24,7 @@ interface Props {
 }
 
 export default function ItemCard(props: Props) {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(1);
     const router = useRouter();
     const [inputNumber, setInputNumber] = useState<string>("")
     const [inputname, setName] = useState<string>("")
@@ -65,7 +65,9 @@ export default function ItemCard(props: Props) {
                     <button onClick={()=>{count === 0 ? setCount(0) : setCount(count-1)}}>
                         <Image src={'/icons/decrease.svg'} alt={'-'} width={25} height={25} />
                     </button>
+                    { count === 1 ? <p className="hidden">{count}</p> :
                     <p className="text-sm md:text-base">{count}</p>
+                    }
                     <button onClick={()=>{setCount(count+1)}}>
                         <Image src={'/icons/increase.svg'} alt={'+'} width={25} height={25} />
                     </button>
