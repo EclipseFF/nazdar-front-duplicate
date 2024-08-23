@@ -100,7 +100,7 @@ export default function Header(props: Props) {
                         <AlertDialogContent className="w-[90%] max-w-[400px] md:max-w-[600px] p-4">
                             <AlertDialogHeader>
                                 <div className="flex justify-between mb-4">
-                                    <AlertDialogTitle>Введите номер телефона</AlertDialogTitle>
+                                    <AlertDialogTitle>Для начала, зарегистрируйтесь</AlertDialogTitle>
                                     <Image onClick={() => setIsOpen(false)} src={'/icons/close.svg'} alt={'Закрыть'} width={32} height={32}/>
                                 </div>
                                 <AlertDialogDescription className="grid grid-cols-1 gap-2 w-full">
@@ -116,9 +116,6 @@ export default function Header(props: Props) {
                                         className="resize-none text-xl border-2 placeholder rounded-md w-full p-2"
                                     />
                                     {error !== "" && <p className="text-red-700">{error}</p>}
-                                </AlertDialogDescription>
-                                <AlertDialogDescription className="text-primary_purple mt-4">
-                                    Если вы уже регистрировались, введите те же данные
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
