@@ -57,7 +57,7 @@ export default function Filters(){
                 ))}
             </div>
             <Suspense>
-                <div className="border border-primary_purple rounded-[10px] flex justify-center gap-x-2 items-center w-[250px] md:w-[300px] h-[60px] mt-4 md:mt-0">
+                <div className="border border-primary_purple rounded-[10px] flex justify-center gap-x-2 items-center w-[250px] md:w-[300px] h-[90px] md:h-[50px] mt-4 md:mt-0">
                     <Image src={'/icons/search.svg'} alt={'Поиск'} width={19} height={19}/>
                     <input
                         placeholder="Поиск..."
