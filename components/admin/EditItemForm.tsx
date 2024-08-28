@@ -127,7 +127,7 @@ export default function EditItemForm({id}: EditItemFormProps) {
 
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">
-                    Введите описание
+                    Введите описание (необходимо для Битрикса)
                 </label>
                 <textarea
                     value={description}
