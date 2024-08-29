@@ -13,6 +13,7 @@ export interface CartItemModel {
     price: number
     quantity: number
     image: string
+    description?: string
 }
 
 export interface User {

@@ -16,7 +16,8 @@ export default async function GetCartItems(token?: string): Promise<CartItemMode
                 name: cartitem.name,
                 quantity: cartitem.count,
                 price: cartitem.price,
-                image: img
+                image: img,
+                description: cartitem.description
             }
 
             items.push(temp);
