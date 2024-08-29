@@ -7,9 +7,6 @@ export default async function Checkout(items: CartItemModel[], token?: string) {
     if (!token) {
         return
     }
-    items.forEach((item) => {
-        console.log(item.description)
-    })
     try {
         const response = await fetch(apiUrl + '/cart/checkout', {
             method: 'POST',
