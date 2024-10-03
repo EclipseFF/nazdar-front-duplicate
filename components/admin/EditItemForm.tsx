@@ -31,7 +31,7 @@ export default function EditItemForm({id}: EditItemFormProps) {
             setPrice(data.price);
             data.description && setDescription(data.description);
             data.categories && setSelectedCategories(data.categories.map((category) => category.id.toString()));
-            setExistingImages(data.images);
+            setExistingImages([...data.images]);
         })
     }, [id]);
 
@@ -150,7 +150,7 @@ export default function EditItemForm({id}: EditItemFormProps) {
                 />
             </div>
 
-            {/*{existingImages && existingImages.length > 0 && (
+            {existingImages && existingImages.length > 0 && (
                 <div className="mb-6">
                     <h3 className="text-lg font-bold mb-4">Существующие изображения</h3>
                     <div className="grid grid-cols-2 gap-4">
@@ -166,7 +166,7 @@ export default function EditItemForm({id}: EditItemFormProps) {
                         ))}
                     </div>
                 </div>
-            )}*/}
+            )}
 
             {images.length > 0 && (
                 <div className="mb-6 grid grid-cols-2 gap-4">
